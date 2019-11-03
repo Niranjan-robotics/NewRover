@@ -1,77 +1,42 @@
-from __future__ import division
-import time
+from time import sleep
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
-# Import the PCA9685 module.
-import Adafruit_PCA9685
-import time
-
-pwm = Adafruit_PCA9685.PCA9685()
+tilt = 22
 
 # Configure min ,mid and max servo pulse lengths
+servo_tilt_up = 90 # upto 130
+servo_tilt_straight = 20 #up to 20
+servo_tilt_down = -20
 
-servo_pan_straight = 376
-servo_pan_right = 170 
-servo_pan_left = 600
+GPIO.setup(tilt, GPIO.OUT) # white => TILT
 
-servo_tilt_up = 300
-servo_tilt_straight = 170 
-servo_tilt_back = 600
-servo_tilt_down = 100
-
-
-# Helper function to make setting a servo pulse width simpler.
-def set_servo_pulse(channel, pulse):
-    pulse_length = 1000000    # 1,000,000 us per second
-    pulse_length //= 60       # 60 Hz
-    print('{0}us per period'.format(pulse_length))
-    pulse_length //= 4096     # 12 bits of resolution
-    print('{0}us per bit'.format(pulse_length))
-    pulse *= 1000
-    pulse //= pulse_length
-    pwm.set_pwm(channel,0,pulse)
-    
-def setSevoAngle(channel, pulse):
-    pwm.set_pwm(channel,0,pulse)
-    time.sleep(1)
- 
-def panStraight():
-    print("look pan straight")
-    setSevoAngle(0,servo_pan_straight)
-    time.sleep(0.5)
-def panRight():
-    print("look pan Right")
-    setSevoAngle(0,servo_pan_right)
-    time.sleep(0.5)
-def panLeft():
-    print("look pan Left")
-    setSevoAngle(0,servo_pan_left)
-    time.sleep(0.5)
+def setServoAngle(servo, angle):
+	assert angle >=-20 and angle <= 130
+	pwm = GPIO.PWM(servo, 50)
+	pwm.start(8)
+	dutyCycle = angle / 18. + 3.
+	pwm.ChangeDutyCycle(dutyCycle)
+	sleep(0.3)
+	pwm.stop()  
     
 def tiltUp():
     print("look tilt up")
-    setSevoAngle(1,servo_tilt_up)
-    time.sleep(0.5)
+    setServoAngle(tilt,servo_tilt_up)
+    
 def tiltStraight():
     print("look tilt straight")
-    setSevoAngle(1,servo_tilt_straight)
-    time.sleep(0.5)
-def tiltBack():
-    print("look tilt back")
-    setSevoAngle(1,servo_tilt_back)
-    time.sleep(0.5)   
+    setServoAngle(tilt,servo_tilt_straight)
+    
 def tiltDown():
     print("look tilt down")
-    setSevoAngle(1,servo_tilt_down)
-    time.sleep(0.5) 
+    setServoAngle(tilt,servo_tilt_down)
     
-def lookStraight():
-    tiltStraight()
-    panStraight()
 
-# tiltBack()
-# tiltUp()
-# tiltStraight()
-# tiltDown()
-#panRight()
-#panLeft()
-#panStraight()      
+#if __name__ == '__main__':  
+#    tiltDown()
+#    tiltUp()
+#    tiltStraight()
+    
+#    GPIO.cleanup()
