@@ -1,0 +1,58 @@
+How to run snowboy tool to detect speech
+-------------------------------------
+
+create a token 
+use following instructions:
+https://docs.google.com/document/d/1WtOhPaV2ES8wBGkI2biRp6ekeOj6DYfZFcvDyGqh6F8/edit?usp=sharing
+
+How to run: 
+go to https://snowboy.kitt.ai/dashboard
+Record a voice to specific word.
+Then download that as ".pdml"(example Alexa.pdml) file under snowboy folder.
+
+$~/snowboy 
+$ sudo python demo.py Alexa.pmdl
+
+	Listening... Press Ctrl+C to exit
+
+	When you see this >say "alexa" or what ever pdml file word your testing
+	this should retun a matching success mesage like this
+	
+	INFO:snowboy:Keyword 1 detected at time: 2019-09-01 21:40:01
+	keep saying name until you get success messages.
+	ctrl + c to exit
+
+=========== how to create samples like "Alexa.pdml" ? models using mic ==========
+$pi@raspberrypi:~/snowboy $ 
+>record voice in 3 files (ex: come / go / stop / chappie / etc)
+arecord --format=S16_LE --duration=5 --rate=16000 --file-type=wav 1.wav
+arecord --format=S16_LE --duration=5 --rate=16000 --file-type=wav 2.wav
+arecord --format=S16_LE --duration=5 --rate=16000 --file-type=wav 3.wav
+
+>to listen to sound recorded : use folloinwg command
+	aplay --format=S16_LE --rate=16000 1.wav
+Now convert sample to model 
+
+$ python training_service.py 1.wav 2.wav 3.wav saved_model.pmdl
+6. Before we utilize our new model we should copy it into our Snowboy folder, this will make it easier to use in our 
+
+Python scripts later on in this guide.
+To copy the file, we can run the following two commands. The first one will copy the model file the second one will move us into the snowboy directory.
+cp saved_model.pmdl ./snowboy/Alex_model.pmdl (change model name unique)
+cd snowboy
+
+7. To test out our new model, we will utilize the demo.py script that came with snowboy. This script allows us to specify the model that we want to use.
+Just run the following command from your current directory to start up the script.
+Make sure you do not run this script as sudo as it will cause issues with reading from the microphone since we set up our .asoundrc configuration file for the piuser.
+
+test model
+
+python demo.py saved_model.pmdl
+or 
+sudo python demo.py Alexa.pmdl
+or 
+sudo python demo.py chappie_model.pmdl
+
+
+
+
