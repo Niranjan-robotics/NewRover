@@ -17,8 +17,8 @@ m1in1 = 9
 m1in2 = 25
 m1en = 20
  
-m2in1 = 8
-m2in2 = 11
+m2in1 = 11
+m2in2 = 8
 m2en = 21
 temp1 = 1
 
@@ -50,14 +50,14 @@ def goBackward():
     GPIO.output(m2in1,GPIO.LOW)
     GPIO.output(m2in2,GPIO.HIGH)
     
-def turnRight():
-    print("Turning Right")
+def turnLeft():
+    print("Turning left")
     GPIO.output(m1in1,GPIO.HIGH)
     GPIO.output(m1in2,GPIO.LOW)
     GPIO.output(m2in1,GPIO.LOW)
     GPIO.output(m2in2,GPIO.HIGH)
 
-def turnLeft():
+def turnRight():
     GPIO.output(m1in1,GPIO.LOW)
     GPIO.output(m1in2,GPIO.HIGH)
     GPIO.output(m2in1,GPIO.HIGH)

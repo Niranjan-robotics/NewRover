@@ -1,5 +1,4 @@
 # the PCA9685 module.
-import Adafruit_PCA9685
 from time import sleep
 from threading import Thread
 import paho.mqtt.client as mqtt
@@ -49,49 +48,7 @@ firstRun = True
 #==================Motor connect======================================
 
 motors.motorSetup()
-#initially stops
-#motors.stopThere()
-
-#====================  servo and motor initialize ========================
-
-# servo_look_straight = 376  # Min pulse length out of 4096
-# servo_look_right = 170  # Max pulse length out of 4096
-# servo_look_left = 600  # Max pulse length out of 4096
-# def panStraight():
-    # print("look pan straight")
-    # servo.setSevoAngle(0,servo_look_straight)
-    # time.sleep(0.5)
-# def panRight():
-    # print("look pan Right")
-    # servo.setSevoAngle(0,servo_look_right)
-    # time.sleep(0.5)
-# def panLeft():
-    # print("look pan Left")
-    # servo.setSevoAngle(0,servo_look_left)
-    # time.sleep(0.5)
-    
-# def tiltStrainght():
-    # print("look tilt straight")
-    # servo.setSevoAngle(1,servo_look_straight)
-    # time.sleep(0.5)
-# def tiltUp():
-    # print("look tilt right")
-    # servo.setSevoAngle(1,servo_look_right)
-    # time.sleep(0.5)
-# def tiltDown():
-    # print("look tilt left")
-    # servo.setSevoAngle(1,servo_look_left)
-    # time.sleep(0.5)   
-    
-# panStraight()     
-# panRight()
-# panLeft()
-
-# tiltStrainght()
-# tiltUp()
-# tiltDown()
-
-servo.lookStraight()
+servo.tiltStraight()
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -167,11 +124,11 @@ if __name__ == "__main__":
             currentDetection="distance"
             if (distance > minDistance):
                 print("Object is little far : " + str(distance))
-                servo.lookStraight()
+                servo.tiltStraight()
                 motors.goForward()
             if (distance < minDistance):
                 print("Object is little close : " + str(distance))
-                servo.panRight()
+                servo.tiltDown()
                 motors.stopThere()
                 motors.turnRight()
                 time.sleep(1)

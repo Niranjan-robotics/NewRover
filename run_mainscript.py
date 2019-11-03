@@ -18,5 +18,5 @@ from subprocess import Popen, PIPE
 
 
 #This will physicall open terminals seperately
-bot1 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/RoverWithoutMqtt/roverMainScript.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
-bot2 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/RoverWithoutMqtt/distance.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+bot1 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/roverMainScript.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+bot2 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/distance.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)

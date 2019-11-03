@@ -6,8 +6,8 @@ GPIO.setwarnings(False)
 tilt = 22
 
 # Configure min ,mid and max servo pulse lengths
-servo_tilt_up = 90 # upto 130
-servo_tilt_straight = 20 #up to 20
+servo_tilt_up = 70 # upto 130
+servo_tilt_straight = 0 #up to 20
 servo_tilt_down = -20
 
 GPIO.setup(tilt, GPIO.OUT) # white => TILT
