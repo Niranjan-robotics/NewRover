@@ -2,11 +2,12 @@
 # a quick test for speech to text
 #
 import speech_recognition as sr
+import os,sys,signal
 
 def main():
 
     r = sr.Recognizer()
-
+    
     with sr.Microphone() as source:
         print ('say something')
         audio = r.listen(source)
@@ -33,4 +34,8 @@ def main():
 
 
 if __name__ == "__main__":
+    #pid=os.getpid()
     main()
+    sys.exit()
+    #os.kill(pid,signal.SIGTERM)
+
