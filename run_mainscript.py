@@ -16,6 +16,9 @@ from subprocess import Popen, PIPE
 #Popen(["python3", "/home/pi/MyFolders/MQTT/basics-mqtt/publisher1.py"])
 #Popen(["python3", "/home/pi/MyFolders/MQTT/basics-mqtt/publisher2.py"])
 
+#to run python program without launching terminal(in background) and get output.
+#bot1 = subprocess.run(["python3", "/home/pi/projects/NewRover/snowboy/SpeechToText/speech_to_text.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+#print(bot1.stdout)
 
 #This will physicall open terminals seperately
 bot1 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/roverMainScript.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
