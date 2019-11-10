@@ -34,8 +34,4 @@ def main():
 
 
 if __name__ == "__main__":
-    #pid=os.getpid()
     main()
-    sys.exit()
-    #os.kill(pid,signal.SIGTERM)
-
