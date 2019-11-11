@@ -1,6 +1,9 @@
 # Import necessary libraries.
 from time import sleep
 from threading import Thread 
+import subprocess
+from subprocess import call
+from subprocess import Popen, PIPE
 import paho.mqtt.publish as publish
 import paho.mqtt.client as mqtt
 from light import Light
@@ -63,7 +66,9 @@ if __name__ == '__main__':
                 led = Light(18)
                 led.blink
                 listening = False
-                publish.single(MQTT_PATH, 'speech: speech to text', hostname=MQTT_SERVER)
+                vMsg = subprocess.run(["python3", "/home/pi/projects/NewRover/snowboy/SpeechToText/speech_to_text.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+                print(vMsg.stdout)
+                #publish.single(MQTT_PATH, 'speech: speech to ' + vMsg.stdout, hostname=MQTT_SERVER)
                 
     # Keep looping until a key is pressed.
     except KeyboardInterrupt:
