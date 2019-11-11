@@ -2,7 +2,6 @@
 from time import sleep
 from threading import Thread
 import paho.mqtt.client as mqtt
-import time 
 import RPi.GPIO as GPIO
 import time
 import servo
@@ -59,6 +58,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe(MQTT_PATH)
     client.subscribe("test_servo")
     client.subscribe("test_motor")
+    client.subscribe("test_voice")
  
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):

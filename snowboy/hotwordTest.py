@@ -1,14 +1,15 @@
 import snowboydecoder
 import os,sys
-import signal,subprocess
+import signal
+import shlex, subprocess
 from subprocess import call
 from subprocess import Popen, PIPE
-#from light import Light
+from light import Light
 
 interrupted = False
 
 #mod_path=glob.glob("/home/pi/projects/NewRover/snowboy/trainModels/*_model.pmdl")
-
+    
 def signal_handler(signal, frame):
     global interrupted
     interrupted = True
@@ -23,15 +24,20 @@ if len(sys.argv) == 1:
     sys.exit(-1)
 
 model = sys.argv[1]
+print("*******subprocess version********")
+print(subprocess.__file__)
 
 signal.signal(signal.SIGINT, signal_handler)
 
 detector = snowboydecoder.HotwordDetector(model, sensitivity=0.5)
 print('Listening... Press Ctrl+C to exit')
 
-#led = Light(17)
+led = Light(18)
 def speechtoText():
-    bot1 = subprocess.run(["python3", "/home/pi/projects/NewRover/snowboy/SpeechToText/speech_to_text.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+    led.blink
+    #bot1 = subprocess.run(["python3", "/home/pi/projects/NewRover/snowboy/SpeechToText/speech_to_text.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+    #bot1 = Popen(["lxterminal", "-e", "python3", "/home/pi/projects/NewRover/snowboy/SpeechToText/speech_to_text.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+    bot1 = Popen(["lxterminal", "-e", "python3", "/home/pi/projects/NewRover/publishMsg.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
     
 detector.start(detected_callback=speechtoText,
                interrupt_check=interrupt_callback,
