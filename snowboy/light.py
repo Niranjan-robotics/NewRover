@@ -26,12 +26,19 @@ class Light(object):
             self.set_off()
         else:
             self.set_on()
+    
+    def turnon(self, t=1):
+        self.set_off()
+        self.set_on()
+        time.sleep(t)
+        self.set_off()
 
     def blink(self, t=0.3):
         self.set_off()
         self.set_on()
         time.sleep(t)
         self.set_off()
+        
 
 if __name__ == "__main__":
     light = Light(15)

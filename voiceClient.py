@@ -6,7 +6,6 @@ from subprocess import call
 from subprocess import Popen, PIPE
 import paho.mqtt.publish as publish
 import paho.mqtt.client as mqtt
-from light import Light
 
 MQTT_SERVER = "localhost"
 MQTT_PATH = "test_voice"
@@ -14,6 +13,7 @@ MQTT_PATH = "test_voice"
 # Define pin constants
 firstRun = True
 listening = False
+
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
@@ -31,9 +31,6 @@ def on_message(client, userdata, msg):
     if (tf_in.find("voice:") != -1):
         if (tf_in.find("speech:") != -1):
             print("Ready for speech")
-            led = Light(15)
-            led.blink
-            sleep(0.3)
         else:
             length = len(tf_in)
             pos1 = tf_in.find(':')  # split up the input string
@@ -62,16 +59,11 @@ if __name__ == '__main__':
             firstRun == False
             if (listening == True):
                 print("I am Listening")
-                sleep(0.3)
-                led = Light(18)
-                led.blink
                 listening = False
                 vMsg = subprocess.run(["python3", "/home/pi/projects/NewRover/snowboy/SpeechToText/speech_to_text.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
                 print(vMsg.stdout)
-                #publish.single(MQTT_PATH, 'speech: speech to ' + vMsg.stdout, hostname=MQTT_SERVER)
                 
     # Keep looping until a key is pressed.
     except KeyboardInterrupt:
-        GPIO.cleanup()
         client.disconnect()
      
