@@ -21,5 +21,8 @@ from subprocess import Popen, PIPE
 #print(bot1.stdout)
 
 #This will physicall open terminals seperately
-bot1 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/roverMainScript.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
-bot2 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/distance.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+edit1 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/roverMainScript.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+edit2 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/distance.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+edit3 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/voiceClient.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+edit4 = Popen(["/home/pi/projects/NewRover/snowboy/runHotword.sh"], shell = True)
+

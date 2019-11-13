@@ -89,16 +89,21 @@ def on_message(client, userdata, msg):
     global hotwordTime
     global firstRun
     global needToSleep
+    global voiceString
     
     tf_in = (str(msg.payload))
     
     if (tf_in.find("coco distance:") != -1):
         length = len(tf_in)
         pos1 = tf_in.find(':')  # split up the input string
-        #print(pos1)
-        distanceString = tf_in[(pos1+1):(length)]  # this will give you the width of the person
+        distanceString = tf_in[(pos1+1):(length)]  # this will give you distance to object
         distanceString=distanceString.replace("'","")
         distance = int(distanceString)
+    if (tf_in.find("speech:") != -1):
+        length = len(tf_in)
+        pos1 = tf_in.find(':')  # split up the input string
+        voiceString = tf_in[(pos1+1):(length)]  # this will give you voice command
+        voiceString=voiceString.replace("'","")
 
 
         
