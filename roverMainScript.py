@@ -40,9 +40,11 @@ minDistance = 25
 startTime = time.time()
 startTimeCup = time.time()
 distanceString = ''
+voiceString = ''
 distance = 0.0
 needToSleep = False
 firstRun = True
+
 
 #==================Motor connect======================================
 
@@ -100,11 +102,11 @@ def on_message(client, userdata, msg):
         distanceString=distanceString.replace("'","")
         distance = int(distanceString)
     if (tf_in.find("speech:") != -1):
+        print(voiceString)
         length = len(tf_in)
         pos1 = tf_in.find(':')  # split up the input string
         voiceString = tf_in[(pos1+1):(length)]  # this will give you voice command
         voiceString=voiceString.replace("'","")
-
 
         
 client = mqtt.Client()
@@ -127,17 +129,26 @@ if __name__ == "__main__":
         while True:
             firstRun == False
             currentDetection="distance"
-            if (distance > minDistance):
-                print("Object is little far : " + str(distance))
-                servo.tiltStraight()
-                motors.goForward()
             if (distance < minDistance):
                 print("Object is little close : " + str(distance))
                 servo.tiltDown()
                 motors.stopThere()
-                motors.turnRight()
-                time.sleep(1)
+            if (voiceString.find('stop')):
+                print("stopping")
+                motors.stopThere()
+            if (voiceString.find('forward')):
+                print("Forward")
                 motors.goForward()
+            if (voiceString.find('backward')):
+                print("backward")
+                motors.goBackward()
+            if (voiceString.find('right')):
+                print("right")
+                motors.turnRight()
+            if (voiceString.find('left')):
+                print("left")
+                motors.turnLeft()
+                
     # Keep looping until a key is pressed.
     except KeyboardInterrupt:
         motors.stopThere()
