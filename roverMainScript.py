@@ -131,7 +131,7 @@ if __name__ == "__main__":
             currentDetection="distance"
             if (distance < minDistance):
                 print("Object is little close : " + str(distance))
-                servo.tiltDown()
+                
                 motors.stopThere()
             if (voiceString.find('stop') != -1):
                 motors.stopThere()
@@ -143,7 +143,12 @@ if __name__ == "__main__":
                 motors.turnRight()
             if (voiceString.find('left') != -1):
                 motors.turnLeft()
-                
+            if (voiceString.find('up') != -1):
+                servo.tiltUp()
+            if (voiceString.find('down') != -1):
+                servo.tiltDown()
+            if (voiceString.find('straight') != -1):
+                servo.tiltStraight()
     # Keep looping until a key is pressed.
     except KeyboardInterrupt:
         motors.stopThere()

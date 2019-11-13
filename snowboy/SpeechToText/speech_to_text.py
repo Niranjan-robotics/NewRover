@@ -17,6 +17,7 @@ MQTT_PATH = "test_voice"
 
 redport = 15
 
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(redport, GPIO.OUT)
 
@@ -38,10 +39,10 @@ def turnOff():
 def main():
 
     r = sr.Recognizer()
-    
+    r.energy_threshold = 400
     with sr.Microphone() as source:
-        r.adjust_for_ambient_noise(source, duration=1)  
-        r.dynamic_energy_threshold = True  
+        #r.adjust_for_ambient_noise(source, duration=0.1)  
+        #r.dynamic_energy_threshold = True  
         print ('say something')
         turnOn()
         audio = r.listen(source)
