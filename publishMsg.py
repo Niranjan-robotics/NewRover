@@ -11,7 +11,7 @@ def main():
     sleep(0.3)
     print ("Listening")
     publish.single(MQTT_PATH, 'voice: start recording', hostname=MQTT_SERVER)
-    sleep(3)
+    sleep(0.3)
  
  
 if __name__ == '__main__':

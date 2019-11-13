@@ -28,13 +28,13 @@ def on_message(client, userdata, msg):
     
     tf_in = (str(msg.payload))
     
-    if (tf_in.find("voice:") != -1):
+    if (tf_in.find("voice: start recording") != -1):
         if (tf_in.find("speech:") != -1):
             print("Ready for speech")
-        else:
+        elif(listening == False):
             length = len(tf_in)
             pos1 = tf_in.find(':')  # split up the input string
-            listening = True
+            listening = True #hold for listening audio.
             speechString = tf_in[(pos1+1):(length)]  # this will give you the width of the person
             speechString=distanceString.replace("'","")
             print(speechString)
@@ -59,9 +59,9 @@ if __name__ == '__main__':
             firstRun == False
             if (listening == True):
                 print("I am Listening")
-                listening = False
                 vMsg = subprocess.run(["python3", "/home/pi/projects/NewRover/snowboy/SpeechToText/speech_to_text.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
                 print(vMsg.stdout)
+                listening = False #reset listening mode to false.Ready for next round.
                 
     # Keep looping until a key is pressed.
     except KeyboardInterrupt:

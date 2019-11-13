@@ -133,20 +133,15 @@ if __name__ == "__main__":
                 print("Object is little close : " + str(distance))
                 servo.tiltDown()
                 motors.stopThere()
-            if (voiceString.find('stop')):
-                print("stopping")
+            if (voiceString.find('stop') != -1):
                 motors.stopThere()
-            if (voiceString.find('forward')):
-                print("Forward")
+            if (voiceString.find('forward') != -1):
                 motors.goForward()
-            if (voiceString.find('backward')):
-                print("backward")
+            if (voiceString.find('backward') != -1):
                 motors.goBackward()
-            if (voiceString.find('right')):
-                print("right")
+            if (voiceString.find('right') != -1):
                 motors.turnRight()
-            if (voiceString.find('left')):
-                print("left")
+            if (voiceString.find('left') != -1):
                 motors.turnLeft()
                 
     # Keep looping until a key is pressed.
