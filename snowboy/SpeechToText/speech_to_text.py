@@ -69,6 +69,15 @@ def main():
         if (text.find("stop") != -1):
             print('stop found')
             publish.single(MQTT_PATH, 'speech:stop', hostname=MQTT_SERVER)
+        if (text.find("up") != -1):
+            print('look up')
+            publish.single(MQTT_PATH, 'speech:look up', hostname=MQTT_SERVER)
+        if (text.find("down") != -1):
+            print('look down')
+            publish.single(MQTT_PATH, 'speech:look down', hostname=MQTT_SERVER)
+        if (text.find("straight") != -1):
+            print('look straight')
+            publish.single(MQTT_PATH, 'speech:look straight', hostname=MQTT_SERVER)
     except Exception as e:
         print (e)
     except r.UnKnownValueError:

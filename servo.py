@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-tilt = 22
+tilt = 19
 
 # Configure min ,mid and max servo pulse lengths
 servo_tilt_up = 70 # upto 130
