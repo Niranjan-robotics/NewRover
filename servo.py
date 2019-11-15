@@ -35,38 +35,20 @@ def set_servo_pulse(channel, pulse):
     pulse *= 1000
     pulse //= pulse_length
     pwm.set_pwm(channel, 0, pulse)
-  
-
-def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
-    client.subscribe(MQTT_PATH)
- 
-def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
-    if str(msg.payload).find("stop") != -1:
-        print("stop")
-        pwm.set_pwm(0, 0, 200)
-        time.sleep(1)
-        # pwm.set_pwm(1, 0, servo_min)
-        # time.sleep(1)
-
-    if str(msg.payload).find("start") != -1:
-        print("start")
-        # Move servo on channel 1 between extremes.
-        pwm.set_pwm(0, 0, 10)
-        time.sleep(1)
-        # pwm.set_pwm(1, 0, servo_max)
-        # time.sleep(1)
- 
-set_servo_pulse(0,10)
- 
-client = mqtt.Client()
-client.on_connect = on_connect
-client.on_message = on_message
- 
-client.connect(MQTT_SERVER, 1883, 60)
- 
-
-client.loop_forever()
-
-
+    
+def lookUp():
+    print("look tilt up")
+    pwm.set_pwm(0, 0, servo_max)
+    time.sleep(1)
+    
+def lookStraight():
+    print("look tilt straight")
+    pwm.set_pwm(0, 0, servo_mid)
+    time.sleep(1)
+    
+def lookDown():
+    print("look tilt down")
+    pwm.set_pwm(0, 0, servo_min)
+    time.sleep(1)
+    
+    

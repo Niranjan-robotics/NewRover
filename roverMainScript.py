@@ -4,8 +4,8 @@ from threading import Thread
 import paho.mqtt.client as mqtt
 import RPi.GPIO as GPIO
 import time
-import servo
 import motors
+import servo
 
 MQTT_SERVER = "localhost"
 MQTT_PATH = "test_channel"
@@ -49,7 +49,7 @@ firstRun = True
 #==================Motor connect======================================
 
 motors.motorSetup()
-servo.tiltStraight()
+servo.set_servo_pulse(0,10)
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -144,11 +144,13 @@ if __name__ == "__main__":
             if (voiceString.find('left') != -1):
                 motors.turnLeft()
             if (voiceString.find('up') != -1):
-                servo.tiltUp()
+                servo.lookUp()
             if (voiceString.find('down') != -1):
-                servo.tiltDown()
+                servo.lookDown()
             if (voiceString.find('straight') != -1):
-                servo.tiltStraight()
+                servo.lookStraight()
+            
+                
     # Keep looping until a key is pressed.
     except KeyboardInterrupt:
         motors.stopThere()
