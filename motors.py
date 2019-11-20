@@ -1,6 +1,10 @@
 
 import RPi.GPIO as GPIO
 from time import sleep
+import time
+import paho.mqtt.publish as publish
+MQTT_SERVER = "localhost"
+MQTT_PATH = "test_motor"
 
 '''
 m1in1 = 4
@@ -43,12 +47,14 @@ def goForward():
     GPIO.output(m1in2,GPIO.LOW)
     GPIO.output(m2in1,GPIO.HIGH)
     GPIO.output(m2in2,GPIO.LOW)
+    publish.single(MQTT_PATH, 'current status: forward', hostname=MQTT_SERVER)
     
 def goBackward():
     GPIO.output(m1in1,GPIO.LOW)
     GPIO.output(m1in2,GPIO.HIGH)
     GPIO.output(m2in1,GPIO.LOW)
     GPIO.output(m2in2,GPIO.HIGH)
+    publish.single(MQTT_PATH, 'current status: backward', hostname=MQTT_SERVER)
     
 def turnLeft():
     print("Turning left")
@@ -56,12 +62,14 @@ def turnLeft():
     GPIO.output(m1in2,GPIO.LOW)
     GPIO.output(m2in1,GPIO.LOW)
     GPIO.output(m2in2,GPIO.HIGH)
+    publish.single(MQTT_PATH, 'current status: left', hostname=MQTT_SERVER)
 
 def turnRight():
     GPIO.output(m1in1,GPIO.LOW)
     GPIO.output(m1in2,GPIO.HIGH)
     GPIO.output(m2in1,GPIO.HIGH)
     GPIO.output(m2in2,GPIO.LOW)
+    publish.single(MQTT_PATH, 'current status: right', hostname=MQTT_SERVER)
 
 def stopThere():
     print("Rohan and Havish asked me to stop")
@@ -69,7 +77,8 @@ def stopThere():
     GPIO.output(m1in2,GPIO.LOW)
     GPIO.output(m2in1,GPIO.LOW)
     GPIO.output(m2in2,GPIO.LOW)
-    sleep(0.5)
+    publish.single(MQTT_PATH, 'current status: stop', hostname=MQTT_SERVER)
+    sleep(0.5)    
 
 def goToSleep():
     GPIO.cleanup()

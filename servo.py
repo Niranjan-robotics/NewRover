@@ -5,6 +5,7 @@ import time
 import Adafruit_PCA9685
 import time
 import paho.mqtt.client as mqtt
+import paho.mqtt.publish as publish
 MQTT_SERVER = "localhost"
 MQTT_PATH = "test_servo"
 
@@ -21,7 +22,7 @@ pwm = Adafruit_PCA9685.PCA9685()
 
 # Configure min ,mid and max servo pulse lengths
 servo_min = 50  # Min pulse length out of 4096
-servo_max = 300  # Max pulse length out of 4096
+servo_max = 400  # Max pulse length out of 4096
 servo_mid = 200  # Max pulse length out of 4096
 
 
@@ -35,20 +36,27 @@ def set_servo_pulse(channel, pulse):
     pulse *= 1000
     pulse //= pulse_length
     pwm.set_pwm(channel, 0, pulse)
+
+def setFreq(pwmFreq=50):
+    pwm.set_pwm_freq(pwmFreq)
     
+        
 def lookUp():
     print("look tilt up")
     pwm.set_pwm(0, 0, servo_max)
+    publish.single(MQTT_PATH, 'current status: up', hostname=MQTT_SERVER)
     time.sleep(1)
     
 def lookStraight():
     print("look tilt straight")
     pwm.set_pwm(0, 0, servo_mid)
+    publish.single(MQTT_PATH, 'current status: straight', hostname=MQTT_SERVER)
     time.sleep(1)
     
 def lookDown():
     print("look tilt down")
     pwm.set_pwm(0, 0, servo_min)
+    publish.single(MQTT_PATH, 'current status: down', hostname=MQTT_SERVER)
     time.sleep(1)
     
     

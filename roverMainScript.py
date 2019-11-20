@@ -49,7 +49,7 @@ firstRun = True
 #==================Motor connect======================================
 
 motors.motorSetup()
-servo.set_servo_pulse(0,10)
+servo.setFreq(50)
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -107,6 +107,11 @@ def on_message(client, userdata, msg):
         pos1 = tf_in.find(':')  # split up the input string
         voiceString = tf_in[(pos1+1):(length)]  # this will give you voice command
         voiceString=voiceString.replace("'","")
+    if (tf_in.find("current status:") != -1):
+        length = len(tf_in)
+        pos1 = tf_in.find(':')  # split up the input string
+        face_move = tf_in[(pos1+1):(length)]  # this will give you voice command
+        motor_direction = face_move=face_move.replace("'","")
 
         
 client = mqtt.Client()
@@ -131,23 +136,22 @@ if __name__ == "__main__":
             currentDetection="distance"
             if (distance < minDistance):
                 print("Object is little close : " + str(distance))
-                
                 motors.stopThere()
-            if (voiceString.find('stop') != -1):
+            if (voiceString.find('stop') != -1 & face_move.find('stop') == -1):
                 motors.stopThere()
-            if (voiceString.find('forward') != -1):
+            if (voiceString.find('forward') != -1 &  face_move.find('forward') == -1):
                 motors.goForward()
-            if (voiceString.find('backward') != -1):
+            if (voiceString.find('backward') != -1 & face_move.find('backward') == -1):
                 motors.goBackward()
             if (voiceString.find('right') != -1):
                 motors.turnRight()
             if (voiceString.find('left') != -1):
                 motors.turnLeft()
-            if (voiceString.find('up') != -1):
+            if (voiceString.find('up') != -1 & face_move.find('up') == -1):
                 servo.lookUp()
-            if (voiceString.find('down') != -1):
+            if (voiceString.find('down') != -1 & face_move.find('down') == -1):
                 servo.lookDown()
-            if (voiceString.find('straight') != -1):
+            if (voiceString.find('straight') != -1 & face_move.find('straight') == -1):
                 servo.lookStraight()
             
                 

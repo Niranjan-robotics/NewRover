@@ -32,11 +32,9 @@ signal.signal(signal.SIGINT, signal_handler)
 detector = snowboydecoder.HotwordDetector(model, sensitivity=0.5)
 print('Listening... Press Ctrl+C to exit')
 
-ledGreen = Light(18)
+#ledGreen = Light(18)
 def speechtoText():
-    ledGreen.blink()
-    #bot1 = subprocess.run(["python3", "/home/pi/projects/NewRover/snowboy/SpeechToText/speech_to_text.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
-    #bot1 = Popen(["lxterminal", "-e", "python3", "/home/pi/projects/NewRover/snowboy/SpeechToText/speech_to_text.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+    #ledGreen.blink()
     bot1 = Popen(["lxterminal", "-e", "python3", "/home/pi/projects/NewRover/publishMsg.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
     
 detector.start(detected_callback=speechtoText,
