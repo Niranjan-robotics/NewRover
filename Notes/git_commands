@@ -23,6 +23,17 @@ remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
 branch.master.remote=origin
 branch.master.merge=refs/heads/master
 
+==================== git commands ============
+
+git fetch
+git pull
+git status
+git add .
+git commit -a
+git push
+
+git merge origin/master
+
 
 =============================Create ssh ==================================================
 
