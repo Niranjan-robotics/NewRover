@@ -59,4 +59,6 @@ def lookDown():
     publish.single(MQTT_PATH, 'current status: down', hostname=MQTT_SERVER)
     time.sleep(1)
     
+setFreq()    
+lookDown()    
     

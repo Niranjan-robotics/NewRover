@@ -59,7 +59,8 @@ if __name__ == '__main__':
             firstRun == False
             if (listening == True):
                 print("I am Listening")
-                vMsg = subprocess.run(["python3", "/home/pi/projects/NewRover/snowboy/SpeechToText/speech_to_text.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+                #vMsg = subprocess.run(["python3", "/home/pi/projects/NewRover/snowboy/SpeechToText/speech_to_text.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+                vMsg = Popen(["/home/pi/projects/NewRover/runSpeechtoText.sh"], shell = True)
                 print(vMsg.stdout)
                 listening = False #reset listening mode to false.Ready for next round.
                 

@@ -1,4 +1,4 @@
 #!/bin/bash
 cd /home/pi/projects/NewRover/snowboy
-python hotwordTest.py ./trainModels/fishy_model.pmdl 
+python hotwordTest.py ./trainModels/link_model.pmdl  
 

@@ -34,9 +34,9 @@ def tiltDown():
     setServoAngle(tilt,servo_tilt_down)
     
 
-#if __name__ == '__main__':  
-#    tiltDown()
-#    tiltUp()
-#    tiltStraight()
+if __name__ == '__main__':  
+    tiltDown()
+    tiltUp()
+    tiltStraight()
     
-#    GPIO.cleanup()
+    GPIO.cleanup()
