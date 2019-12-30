@@ -5,6 +5,7 @@ import speech_recognition as sr
 import os,sys,signal
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
+import subprocess
 from threading import Thread
 import RPi.GPIO as GPIO
 import time
@@ -56,19 +57,21 @@ def main():
         if (text.find("right") != -1):
             print('right found')
             publish.single(MQTT_PATH, 'speech:right', hostname=MQTT_SERVER)
-
+            play_mp3('/home/pi/projects/NewRover/voices/Smitha.mp3')
         if (text.find("left") != -1):
             print('left found')
             publish.single(MQTT_PATH, 'speech:left', hostname=MQTT_SERVER)
         if (text.find("go") != -1):
             print('forward found')
             publish.single(MQTT_PATH, 'speech:forward', hostname=MQTT_SERVER)
+            play_mp3('/home/pi/projects/NewRover/voices/Rohan.mp3')
         if (text.find("back") != -1):
             print('backward found')
             publish.single(MQTT_PATH, 'speech:backward', hostname=MQTT_SERVER)
         if (text.find("stop") != -1):
             print('stop found')
             publish.single(MQTT_PATH, 'speech:stop', hostname=MQTT_SERVER)
+            play_mp3('/home/pi/projects/NewRover/voices/havish.mp3')
         if (text.find("up") != -1):
             print('look up')
             publish.single(MQTT_PATH, 'speech:up', hostname=MQTT_SERVER)
@@ -85,6 +88,10 @@ def main():
     except r.RequestError as e:
         print ('failed'.format(e))
         
+
+def play_mp3(path):
+    subprocess.Popen(['mpg123', '-q', path]).wait()
+    
 
 if __name__ == "__main__":
 
