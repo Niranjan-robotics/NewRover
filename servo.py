@@ -17,13 +17,10 @@ MQTT_PATH = "test_servo"
 # Initialise the PCA9685 using the default address (0x40).
 pwm = Adafruit_PCA9685.PCA9685()
 
-# Alternatively specify a different address and/or bus:
-#pwm = Adafruit_PCA9685.PCA9685(address=0x41, busnum=2)
-
 # Configure min ,mid and max servo pulse lengths
-servo_min = 50  # Min pulse length out of 4096
-servo_max = 400  # Max pulse length out of 4096
-servo_mid = 200  # Max pulse length out of 4096
+servo_min = -20  # Min pulse length out of 4096
+servo_max = 70  # Max pulse length out of 4096
+servo_mid = 0  # Max pulse length out of 4096
 
 
 # Helper function to make setting a servo pulse width simpler.
@@ -40,25 +37,28 @@ def set_servo_pulse(channel, pulse):
 def setFreq(pwmFreq=50):
     pwm.set_pwm_freq(pwmFreq)
     
+# tild commands    
         
 def lookUp():
-    print("look tilt up")
+    print("Looking up")
     pwm.set_pwm(0, 0, servo_max)
-    publish.single(MQTT_PATH, 'current status: up', hostname=MQTT_SERVER)
+    #publish.single(MQTT_PATH, 'current status: up', hostname=MQTT_SERVER)
     time.sleep(1)
     
 def lookStraight():
-    print("look tilt straight")
+    print("look straight")
     pwm.set_pwm(0, 0, servo_mid)
-    publish.single(MQTT_PATH, 'current status: straight', hostname=MQTT_SERVER)
+    #publish.single(MQTT_PATH, 'current status: straight', hostname=MQTT_SERVER)
     time.sleep(1)
     
 def lookDown():
-    print("look tilt down")
+    print("look down")
     pwm.set_pwm(0, 0, servo_min)
-    publish.single(MQTT_PATH, 'current status: down', hostname=MQTT_SERVER)
+    #publish.single(MQTT_PATH, 'current status: down', hostname=MQTT_SERVER)
     time.sleep(1)
     
-setFreq()    
-lookDown()    
-    
+# setFreq()    
+# lookDown()    
+# lookStraight()
+# lookUp()
+
