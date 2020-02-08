@@ -155,7 +155,8 @@ if __name__ == "__main__":
                 servo.lookDown()
             if (voiceString.find('straight') != -1 & face_move.find('straight') == -1):
                 servo.lookStraight()
-            
+            if (voiceString.find('kotha') != -1 & face_move.find('straight') == -1):
+                servo.lookStraight()
                 
     # Keep looping until a key is pressed.
     except KeyboardInterrupt:

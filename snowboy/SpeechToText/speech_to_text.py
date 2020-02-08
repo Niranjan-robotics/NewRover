@@ -81,6 +81,26 @@ def main():
         if (text.find("straight") != -1):
             print('look straight')
             publish.single(MQTT_PATH, 'speech:straight', hostname=MQTT_SERVER)
+        if (text.find("roar") != -1) | (text.find("katy") != -1):
+            print('Singing katy perry Roar song')
+            play_mp3('/home/pi/Songs/Roar.mp3')
+            #publish.single(MQTT_PATH, 'speech:song', hostname=MQTT_SERVER)
+        if (text.find("kotha") != -1) | (text.find("kata")  != -1):
+            print('Singing Nirmala convent Kotha Kotha basha song')
+            play_mp3('/home/pi/Songs/KothaKotha.mp3')
+            #publish.single(MQTT_PATH, 'speech:song', hostname=MQTT_SERVER)
+        if (text.find("dark horse") != -1):
+            print('Singing katy perry Dark Horse song')
+            play_mp3('/home/pi/Songs/DarkHorse.mp3')
+            #publish.single(MQTT_PATH, 'speech:song', hostname=MQTT_SERVER)
+        if (text.find("Happy") != -1) |(text.find("happy") != -1) :
+            print('Singing Happy Happy song')
+            play_mp3('/home/pi/Songs/HappyHappy.mp3')
+            #publish.single(MQTT_PATH, 'speech:song', hostname=MQTT_SERVER)
+        if (text.find("cool kid") != -1) | (text.find("cool") != -1) | (text.find("kid") != -1):
+            print('Singing Echo smith Cool kids song')
+            play_mp3('/home/pi/Songs/CoolKids.mp3')
+            #publish.single(MQTT_PATH, 'speech:song', hostname=MQTT_SERVER)
     except Exception as e:
         print (e)
     except r.UnKnownValueError:

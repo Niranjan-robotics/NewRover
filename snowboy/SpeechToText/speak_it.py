@@ -1,4 +1,10 @@
 import pyttsx3
 engine = pyttsx3.init()
-engine.say('Good morning. I am Rohan.')
-engine.runAndWait()
+
+def Getname():
+	engine.say('I am Link.')
+	engine.runAndWait()
+
+def SingSong():
+	engine.say('I am Link.')
+	engine.runAndWait()

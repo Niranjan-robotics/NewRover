@@ -34,7 +34,9 @@ class Light(object):
         self.set_off()
 
 if __name__ == "__main__":
+    #red light
     light = Light(15)
+    #green light
     light2 = Light(18)
     while True:
         light.blink()
