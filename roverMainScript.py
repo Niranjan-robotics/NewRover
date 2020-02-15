@@ -94,6 +94,7 @@ def on_message(client, userdata, msg):
     global firstRun
     global needToSleep
     global voiceString
+    global subprocess_id
     
     tf_in = (str(msg.payload))
     
@@ -109,6 +110,7 @@ def on_message(client, userdata, msg):
         pos1 = tf_in.find(':')  # split up the input string
         voiceString = tf_in[(pos1+1):(length)]  # this will give you voice command
         voiceString=voiceString.replace("'","")
+
     if (tf_in.find("current status:") != -1):
         length = len(tf_in)
         pos1 = tf_in.find(':')  # split up the input string
@@ -132,6 +134,7 @@ if __name__ == "__main__":
     t2 = Thread(target = runB)
     t2.setDaemon(True)
     t2.start()
+    
     try:
         while True:
             firstRun == False
@@ -154,8 +157,6 @@ if __name__ == "__main__":
             if (voiceString.find('down') != -1 & face_move.find('down') == -1):
                 servo.lookDown()
             if (voiceString.find('straight') != -1 & face_move.find('straight') == -1):
-                servo.lookStraight()
-            if (voiceString.find('kotha') != -1 & face_move.find('straight') == -1):
                 servo.lookStraight()
                 
     # Keep looping until a key is pressed.

@@ -6,9 +6,9 @@
 #bash training_service_model.sh
 #$pi@raspberrypi:~/snowboy $ 
 #>record voice in 3 files (ex: come / go / stop / chappie / etc)
-#arecord --format=S16_LE --duration=5 --rate=16000 --file-type=wav 1.wav
-#arecord --format=S16_LE --duration=5 --rate=16000 --file-type=wav 2.wav
-#arecord --format=S16_LE --duration=5 --rate=16000 --file-type=wav 3.wav
+#arecord --format=S16_LE --duration=2 --rate=16000 --file-type=wav 1.wav
+#arecord --format=S16_LE --duration=2 --rate=16000 --file-type=wav 2.wav
+#arecord --format=S16_LE --duration=2 --rate=16000 --file-type=wav 3.wav
 #>to listen to sound recorded : use folloinwg command
 #	aplay --format=S16_LE --rate=16000 1.wav
 #Now convert sample to model 
