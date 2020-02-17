@@ -6,6 +6,7 @@ import RPi.GPIO as GPIO
 import time
 import motors
 import servo
+import objectdetection as obj
 
 MQTT_SERVER = "localhost"
 MQTT_PATH = "test_channel"
@@ -63,6 +64,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("test_servo")
     client.subscribe("test_motor")
     client.subscribe("test_voice")
+    client.subscribe("test_detection")
  
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
@@ -158,6 +160,9 @@ if __name__ == "__main__":
                 servo.lookDown()
             if (voiceString.find('straight') != -1 & face_move.find('straight') == -1):
                 servo.lookStraight()
+            if (voiceString.find('face') != -1):
+                print("launching object detection")
+                obj.main()
                 
     # Keep looping until a key is pressed.
     except KeyboardInterrupt:

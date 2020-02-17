@@ -14,7 +14,7 @@
 # ****************************************************************************
 #
 import paho.mqtt.client as mqtt
-
+import paho.mqtt.publish as publish
 import os
 import cv2
 import sys
@@ -22,59 +22,57 @@ import numpy
 import ntpath
 import argparse
 import time
+from time import sleep
 from threading import Thread
-
-
 from PIL import Image
 import PIL.ImageDraw
 import PIL.ImageFont
-
 import edgetpu.detection.engine
 from edgetpu.utils import image_processing
-
+from edgetpu.detection.engine import DetectionEngine
+from edgetpu.basic import edgetpu_utils
 from imutils.video import FPS
 from imutils.video import VideoStream
+import multiprocessing as mp
 
 MQTT_SERVER = "localhost"
-MQTT_PATH = "test_channel"
+MQTT_PATH = "test_detection"
 
 message = "face"
 action = False
 hotwordTime = 0
+processes = []
+
 # Variable to store command line arguments
 ARGS = None
 
-def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+# def on_connect(client, userdata, flags, rc):
+    # print("Connected with result code "+str(rc))
  
-    # Subscribing in on_connect() means that if we lose the connection and
-    # reconnect then subscriptions will be renewed.
-    client.subscribe("voice")
+    # # Subscribing in on_connect() means that if we lose the connection and
+    # # reconnect then subscriptions will be renewed.
+    # client.subscribe("test_voice")
 
-client = mqtt.Client()
-client.on_connect = on_connect
-client.connect(MQTT_SERVER, 1883, 60)
+# client = mqtt.Client()
+# client.on_connect = on_connect
+# client.connect(MQTT_SERVER, 1883, 60)
 
+# def runB():
+    # #client = mqtt.Client()
+    # #client.on_connect = on_connect
+    # client.on_message = on_message
+    # #client.connect(MQTT_SERVER, 1883, 60)
+    # client.loop_forever()
 
-
-def runB():
-    #client = mqtt.Client()
-    #client.on_connect = on_connect
-    client.on_message = on_message
-    #client.connect(MQTT_SERVER, 1883, 60)
-    client.loop_forever()
-
-def on_message(client, userdata, msg):
-    global message
-    global action
-    global hotwordTime
-    message = (str(msg.payload))
-    if message.find('robot') != -1:
-        hotwordTime = time.time() +10
-    elif (message.find('face') != -1) or (message.find('coco') != -1):
-        action = True
-
-
+# def on_message(client, userdata, msg):
+    # global message
+    # global action
+    # global hotwordTime
+    # message = (str(msg.payload))
+    # if message.find('robot') != -1:
+        # hotwordTime = time.time() +10
+    # elif (message.find('face') != -1) or (message.find('coco') != -1):
+        # action = True
     
 # Read labels from text files.
 def ReadLabelFile(file_path):
@@ -100,7 +98,6 @@ def annotate_and_display ( image, inferenceResults, elapsedMs, labels, font ):
 
         # Prepare boundary box
         box = obj.bounding_box.flatten().tolist()
-
                 
         # Draw rectangle to desired thickness
         for x in range( 0, 4 ):
@@ -134,14 +131,12 @@ def annotate_and_display ( image, inferenceResults, elapsedMs, labels, font ):
         outputString = outputString + "#" + str(objY)
         
         client.publish(MQTT_PATH, outputString)
-            
-        
-
 
     # If a display is available, show the image on which inference was performed
     if 'DISPLAY' in os.environ:
         displayImage = numpy.asarray( image )
         cv2.imshow( 'NCS Improved live inference', displayImage )
+
 
 # Main flow
 def main2():
@@ -162,15 +157,11 @@ def main2():
     # communication with the Coral
     inferenceEngine = edgetpu.detection.engine.DetectionEngine('mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite')
 
-    # Use imutils for handling video - allows for seamless switching
-    # between RaspberryPi Camera and USB Camera.
-    #vs = VideoStream(src=1,usePiCamera=ARGS.picamera, resolution=(640, 480)).start()
-    #time.sleep(1)
-    #update videostreaming default to mpg format
-    
     vs = cv2.VideoCapture(0)
     vs.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
-
+    if not vs.isOpened:
+        print('--(!)Error opening video capture')
+        exit(0)
     
     # Use imutils to count Frames Per Second (FPS)
     fps = FPS().start()
@@ -180,10 +171,10 @@ def main2():
         try:
 
             # Read frame from video and prepare for inference
-            screenshot = vs.read()
+            frame, screenshot = vs.read()
 
             # Prepare screenshot for annotation by reading it into a PIL IMAGE object
-            image = PIL.Image.fromarray(screenshot)
+            image = Image.fromarray(screenshot)
 
             # Perform inference and note time taken
             startMs = time.time()
@@ -206,12 +197,56 @@ def main2():
             fps.stop()
             break
 
-
+    vs.release()
     cv2.destroyAllWindows()
-    vs.stop()
+    #vs.stop()
     time.sleep(2)
 
 def main():
+    print("I am in object detection")
+    t2 = Thread()
+    t2.setDaemon(True)
+    t2.start()
+    
+    # comment following line to stop detecting facemessage
+    #message='face'
+    
+    parser = argparse.ArgumentParser(
+                         description="Detect objects on a LIVE camera feed using \
+                         Google Coral USB." )
+
+    parser.add_argument( '--model', type=str,
+                         default='./all_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite',
+                         help="Path to the neural network graph file." )
+
+    parser.add_argument( '--labels', type=str,
+                         default='./all_models/coco_labels.txt',
+                         help="Path to labels file." )
+
+    parser.add_argument( '--maxobjects', type=int,
+                         default=3,
+                         help="Maximum objects to infer in each frame of video." )
+
+    parser.add_argument( '--confidence', type=float,
+                         default=0.75, 
+                         help="Minimum confidence threshold to tag objects." )
+
+    parser.add_argument( '--picamera',
+                         action='store_true',
+                         help="Use PiCamera for image capture. If this flag is not set a USB Camera will be expected.")
+
+    parser.set_defaults(picamera=False)
+
+    ARGS = parser.parse_args()
+
+    # Load the labels file
+    labels =[ line.rstrip('\n') for line in
+              open( ARGS.labels ) if line != 'classes\n']
+
+    print(ARGS)
+    # Load the labels file
+    labels =[ line.rstrip('\n') for line in
+              open( ARGS.labels ) if line != 'classes\n']
 
     # Store labels for matching with inference results
     labels = ReadLabelFile(ARGS.labels) if ARGS.labels else None
@@ -227,7 +262,8 @@ def main():
 
     # Use Google Corals own DetectionEngine for handling
     # communication with the Coral
-    inferenceEngine = edgetpu.detection.engine.DetectionEngine('mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite')#'mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite')
+    inferenceEngine = edgetpu.detection.engine.DetectionEngine('./all_models/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite') #'mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite')
+    #inferenceEngine = edgetpu.detection.engine.DetectionEngine('mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite')
 
     # #============= niranjan edited ============
     # camera_device = ARGS.picamera
@@ -235,18 +271,11 @@ def main():
     vs = cv2.VideoCapture(0)
     # # set the format into MJPG in the FourCC format 
     vs.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
-    # if not vs.isOpened:
-        # print('--(!)Error opening video capture')
-        # exit(0)
+    if not vs.isOpened:
+        print('--(!)Error opening video capture')
+        exit(0)
     
     # #============== end edit======= uncomment following commented lines when not using above code====================
-    
-    ## Use imutils for handling video - allows for seamless switching
-    ## between RaspberryPi Camera and USB Camera.
-
-    #vs = VideoStream(src=0,usePiCamera=ARGS.picamera, resolution=(640, 480)).start()
-    #time.sleep(1)
-
     ## Use imutils to count Frames Per Second (FPS)
     fps = FPS().start()
 
@@ -280,59 +309,62 @@ def main():
         except KeyboardInterrupt:
             fps.stop()
             break
-
-
-
+    
+    vs.release()
     cv2.destroyAllWindows()
     vs.stop()
     time.sleep(2)
 
 # Define 'main' function as the entry point for this script.
 
-if __name__ == '__main__':
-    t2 = Thread(target = runB)
-    t2.setDaemon(True)
-    t2.start()
+# if __name__ == '__main__':
+    # t2 = Thread()
+    # t2.setDaemon(True)
+    # t2.start()
     
-    # comment following line to stop detecting facemessage
-    message='face'
+    # # comment following line to stop detecting facemessage
+    # #message='face'
     
-    parser = argparse.ArgumentParser(
-                         description="Detect objects on a LIVE camera feed using \
-                         Google Coral USB." )
+    # parser = argparse.ArgumentParser(
+                         # description="Detect objects on a LIVE camera feed using \
+                         # Google Coral USB." )
 
-    parser.add_argument( '--model', type=str,
-                         default='mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite',
-                         help="Path to the neural network graph file." )
+    # parser.add_argument( '--model', type=str,
+                         # default='./all_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite',
+                         # help="Path to the neural network graph file." )
 
-    parser.add_argument( '--labels', type=str,
-                         default='coco_labels.txt',
-                         help="Path to labels file." )
+    # parser.add_argument( '--labels', type=str,
+                         # default='./all_models/coco_labels.txt',
+                         # help="Path to labels file." )
 
-    parser.add_argument( '--maxobjects', type=int,
-                         default=3,
-                         help="Maximum objects to infer in each frame of video." )
+    # parser.add_argument( '--maxobjects', type=int,
+                         # default=3,
+                         # help="Maximum objects to infer in each frame of video." )
 
-    parser.add_argument( '--confidence', type=float,
-                         default=0.75, 
-                         help="Minimum confidence threshold to tag objects." )
+    # parser.add_argument( '--confidence', type=float,
+                         # default=0.75, 
+                         # help="Minimum confidence threshold to tag objects." )
 
-    parser.add_argument( '--picamera',
-                         action='store_true',
-                         help="Use PiCamera for image capture. If this flag is not set a USB Camera will be expected.")
+    # parser.add_argument( '--picamera',
+                         # action='store_true',
+                         # help="Use PiCamera for image capture. If this flag is not set a USB Camera will be expected.")
 
-    parser.set_defaults(picamera=False)
+    # parser.set_defaults(picamera=False)
 
-    ARGS = parser.parse_args()
+    # ARGS = parser.parse_args()
 
-    # Load the labels file
-    labels =[ line.rstrip('\n') for line in
-              open( ARGS.labels ) if line != 'classes\n']
+    # # Load the labels file
+    # labels =[ line.rstrip('\n') for line in
+              # open( ARGS.labels ) if line != 'classes\n']
 
-    print(ARGS)
-    main()
+    # print(ARGS)
+    # # Load the labels file
+    # labels =[ line.rstrip('\n') for line in
+              # open( ARGS.labels ) if line != 'classes\n']
+    
+    # #uncomment main to test
+    # #main()          
     # while True:
-        # print("In while")
         # if (action == True) and (time.time()<hotwordTime):
             # action = False
             # if message.find('face') != -1:
@@ -341,9 +373,5 @@ if __name__ == '__main__':
             # if message.find('coco') != -1:
                 # #sleep(500)
                 # main2()
-              
-
-
-
 
 # ==== End of file ===========================================================
