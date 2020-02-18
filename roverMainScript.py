@@ -64,7 +64,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("test_servo")
     client.subscribe("test_motor")
     client.subscribe("test_voice")
-    client.subscribe("test_detection")
+    client.subscribe("test_objectdetection")
  
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
@@ -118,6 +118,13 @@ def on_message(client, userdata, msg):
         pos1 = tf_in.find(':')  # split up the input string
         face_move = tf_in[(pos1+1):(length)]  # this will give you voice command
         motor_direction = face_move=face_move.replace("'","")
+        
+    if (tf_in.find("objectdetection:") != -1):
+        length = len(tf_in)
+        pos1 = tf_in.find(':')  # split up the input string
+        face_move = tf_in[(pos1+1):(length)]  # this will give you voice command
+        camera_view = face_move=face_move.replace("'","")
+        print(camera_view)
 
         
 client = mqtt.Client()
@@ -160,9 +167,9 @@ if __name__ == "__main__":
                 servo.lookDown()
             if (voiceString.find('straight') != -1 & face_move.find('straight') == -1):
                 servo.lookStraight()
-            if (voiceString.find('face') != -1):
-                print("launching object detection")
-                obj.main()
+            #if (voiceString.find('face') != -1) or (voiceString.find('coco') != -1):
+            #    print("launching object detection")
+            #    obj.main()
                 
     # Keep looping until a key is pressed.
     except KeyboardInterrupt:

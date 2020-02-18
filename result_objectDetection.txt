@@ -1,0 +1,437 @@
+ person:388;384@438.0#288.0
+ person:381;388@443.5#286.0
+ person:379;375@433.5#292.5
+ person:388;380@434.0#290.0
+ person:379;375@437.5#292.5
+ person:388;379@434.0#290.5
+ person:388;375@434.0#292.5
+ person:380;388@428.0#286.0
+ person:388;380@426.0#290.0
+ person:388;380@426.0#290.0
+ person:388;386@428.0#287.0
+ person:388;380@426.0#290.0
+ person:388;386@428.0#287.0
+ person:391;388@433.5#286.0
+ person:383;387@433.5#286.5
+ person:396;385@426.0#287.5
+ person:396;385@426.0#287.5
+ person:391;388@433.5#286.0
+ person:388;380@426.0#290.0
+ person:388;380@426.0#290.0
+ person:391;383@428.5#288.5
+ person:388;386@428.0#287.0
+ person:388;380@426.0#290.0
+ person:388;386@428.0#287.0
+ person:381;383@433.5#288.5
+ person:388;380@422.0#290.0
+ person:380;388@428.0#286.0
+ person:381;388@433.5#286.0
+ person:293;341@337.5#193.5
+ person:298;338@408.0#169.0
+ person:305;340@353.5#172.0
+ person:300;340@345.0#170.0
+ person:292;332@345.0#169.0
+ person:299;338@344.5#169.0
+ person:292;333@345.0#166.5
+ person:292;333@345.0#166.5
+ person:295;329@342.5#168.5
+ person:301;333@344.5#166.5
+ person:299;341@341.5#170.5
+ person:299;333@341.5#167.5
+ person:299;333@343.5#166.5
+ person:294;328@342.0#165.0
+ person:292;326@341.0#166.0
+ person:292;326@341.0#166.0
+ person:299;330@343.5#165.0
+ person:301;333@342.5#166.5
+ person:295;333@344.5#166.5
+ person:299;333@341.5#166.5
+ person:300;333@345.0#166.5
+ person:293;361@490.5#180.5
+ person:295;343@285.5#184.5
+ person:285;340@272.5#210.0
+ person:293;341@259.5#225.5
+ person:287;326@260.5#237.0
+ person:293;334@257.5#237.0
+ person:287;333@262.5#239.5
+ person:287;334@257.5#237.0
+ person:293;340@257.5#240.0
+ person:287;334@260.5#240.0
+ person:287;334@259.5#242.0
+ person:287;334@260.5#240.0
+ person:293;334@257.5#240.0
+ person:293;341@260.5#239.5
+ person:287;334@260.5#240.0
+ person:287;334@259.5#240.0
+ person:293;341@257.5#239.5
+ person:293;334@254.5#240.0
+ person:287;334@262.5#242.0
+ person:287;334@259.5#242.0
+ person:287;334@259.5#242.0
+ person:293;341@257.5#239.5
+ person:293;334@257.5#240.0
+ person:287;334@259.5#240.0
+ person:287;326@260.5#240.0
+ person:281;326@262.5#240.0
+ person:287;334@260.5#240.0
+ person:286;334@268.0#237.0
+ person:281;333@265.5#239.5
+ person:286;333@268.0#239.5
+ person:280;326@266.0#234.0
+ person:281;333@262.5#232.5
+ person:298;378@487.0#210.0
+ person:303;380@488.5#216.0
+ person:522;479@328.0#240.5
+ person:512;480@328.0#240.0
+ person:512;479@334.0#240.5
+ person:490;479@328.0#240.5
+ person:468;474@328.0#243.0
+ person:459;474@309.5#243.0
+ person:459;479@291.5#240.5
+ person:460;480@272.0#240.0
+ person:449;480@261.5#240.0
+ person:450;480@261.0#240.0
+ person:440;475@256.0#242.5
+ person:439;474@261.5#243.0
+ person:441;480@259.5#240.0
+ person:449;480@267.5#240.0
+ person:440;480@272.0#240.0
+ person:449;480@279.5#240.0
+ person:470;480@300.0#240.0
+ person:548;475@295.0#242.5
+Object is little close : 12
+Rohan and Havish asked me to stop
+Object is little close : 21
+Rohan and Havish asked me to stop
+Object is little close : 9
+Rohan and Havish asked me to stop
+Object is little close : 12
+Rohan and Havish asked me to stop
+Object is little close : 14
+Rohan and Havish asked me to stop
+Object is little close : 17
+Rohan and Havish asked me to stop
+Object is little close : 15
+Rohan and Havish asked me to stop
+Object is little close : 12
+Rohan and Havish asked me to stop
+Object is little close : 11
+Rohan and Havish asked me to stop
+ person:358;399@406.0#204.5
+Object is little close : 11
+Rohan and Havish asked me to stop
+ person:351;391@410.5#199.5
+ person:351;391@410.5#199.5
+ person:359;391@410.5#199.5
+ person:359;391@410.5#199.5
+ person:356;389@409.0#203.5
+ person:350;394@404.0#197.0
+ person:350;394@404.0#197.0
+Object is little close : 11
+Rohan and Havish asked me to stop
+ person:351;391@406.5#199.5
+ person:350;385@401.0#192.5
+ person:358;399@406.0#199.5
+ person:357;389@402.5#197.5
+ person:351;383@406.5#195.5
+ person:343;373@406.5#186.5
+ person:351;374@406.5#191.0
+ person:351;374@406.5#191.0
+Object is little close : 12
+Rohan and Havish asked me to stop
+ person:351;374@406.5#191.0
+ person:351;382@406.5#191.0
+ person:357;381@403.5#192.5
+
+
+
+ person:388;384@438.0#288.0
+ person:381;388@443.5#286.0
+ person:379;375@433.5#292.5
+ person:388;380@434.0#290.0
+ person:379;375@437.5#292.5
+ person:388;379@434.0#290.5
+ person:388;375@434.0#292.5
+ person:380;388@428.0#286.0
+ person:388;380@426.0#290.0
+ person:388;380@426.0#290.0
+ person:388;386@428.0#287.0
+ person:388;380@426.0#290.0
+ person:388;386@428.0#287.0
+ person:391;388@433.5#286.0
+ person:383;387@433.5#286.5
+ person:396;385@426.0#287.5
+ person:396;385@426.0#287.5
+ person:391;388@433.5#286.0
+ person:388;380@426.0#290.0
+ person:388;380@426.0#290.0
+ person:391;383@428.5#288.5
+ person:388;386@428.0#287.0
+ person:388;380@426.0#290.0
+ person:388;386@428.0#287.0
+ person:381;383@433.5#288.5
+ person:388;380@422.0#290.0
+ person:380;388@428.0#286.0
+ person:381;388@433.5#286.0
+ person:293;341@337.5#193.5
+ person:298;338@408.0#169.0
+ person:305;340@353.5#172.0
+ person:300;340@345.0#170.0
+ person:292;332@345.0#169.0
+ person:299;338@344.5#169.0
+ person:292;333@345.0#166.5
+ person:292;333@345.0#166.5
+ person:295;329@342.5#168.5
+ person:301;333@344.5#166.5
+ person:299;341@341.5#170.5
+ person:299;333@341.5#167.5
+ person:299;333@343.5#166.5
+ person:294;328@342.0#165.0
+ person:292;326@341.0#166.0
+ person:292;326@341.0#166.0
+ person:299;330@343.5#165.0
+ person:301;333@342.5#166.5
+ person:295;333@344.5#166.5
+ person:299;333@341.5#166.5
+ person:300;333@345.0#166.5
+ person:293;361@490.5#180.5
+ person:295;343@285.5#184.5
+ person:285;340@272.5#210.0
+ person:293;341@259.5#225.5
+ person:287;326@260.5#237.0
+ person:293;334@257.5#237.0
+ person:287;333@262.5#239.5
+ person:287;334@257.5#237.0
+ person:293;340@257.5#240.0
+ person:287;334@260.5#240.0
+ person:287;334@259.5#242.0
+ person:287;334@260.5#240.0
+ person:293;334@257.5#240.0
+ person:293;341@260.5#239.5
+ person:287;334@260.5#240.0
+ person:287;334@259.5#240.0
+ person:293;341@257.5#239.5
+ person:293;334@254.5#240.0
+ person:287;334@262.5#242.0
+ person:287;334@259.5#242.0
+ person:287;334@259.5#242.0
+ person:293;341@257.5#239.5
+ person:293;334@257.5#240.0
+ person:287;334@259.5#240.0
+ person:287;326@260.5#240.0
+ person:281;326@262.5#240.0
+ person:287;334@260.5#240.0
+ person:286;334@268.0#237.0
+ person:281;333@265.5#239.5
+ person:286;333@268.0#239.5
+ person:280;326@266.0#234.0
+ person:281;333@262.5#232.5
+ person:298;378@487.0#210.0
+ person:303;380@488.5#216.0
+ person:522;479@328.0#240.5
+ person:512;480@328.0#240.0
+ person:512;479@334.0#240.5
+ person:490;479@328.0#240.5
+ person:468;474@328.0#243.0
+ person:459;474@309.5#243.0
+ person:459;479@291.5#240.5
+ person:460;480@272.0#240.0
+ person:449;480@261.5#240.0
+ person:450;480@261.0#240.0
+ person:440;475@256.0#242.5
+ person:439;474@261.5#243.0
+ person:441;480@259.5#240.0
+ person:449;480@267.5#240.0
+ person:440;480@272.0#240.0
+ person:449;480@279.5#240.0
+ person:470;480@300.0#240.0
+ person:548;475@295.0#242.5
+Object is little close : 12
+Rohan and Havish asked me to stop
+Object is little close : 21
+Rohan and Havish asked me to stop
+Object is little close : 9
+Rohan and Havish asked me to stop
+Object is little close : 12
+Rohan and Havish asked me to stop
+Object is little close : 14
+Rohan and Havish asked me to stop
+Object is little close : 17
+Rohan and Havish asked me to stop
+Object is little close : 15
+Rohan and Havish asked me to stop
+Object is little close : 12
+Rohan and Havish asked me to stop
+Object is little close : 11
+Rohan and Havish asked me to stop
+ person:358;399@406.0#204.5
+Object is little close : 11
+Rohan and Havish asked me to stop
+ person:351;391@410.5#199.5
+ person:351;391@410.5#199.5
+ person:359;391@410.5#199.5
+ person:359;391@410.5#199.5
+ person:356;389@409.0#203.5
+ person:350;394@404.0#197.0
+ person:350;394@404.0#197.0
+Object is little close : 11
+Rohan and Havish asked me to stop
+ person:351;391@406.5#199.5
+ person:350;385@401.0#192.5
+ person:358;399@406.0#199.5
+ person:357;389@402.5#197.5
+ person:351;383@406.5#195.5
+ person:343;373@406.5#186.5
+ person:351;374@406.5#191.0
+ person:351;374@406.5#191.0
+Object is little close : 12
+Rohan and Havish asked me to stop
+ person:351;374@406.5#191.0
+ person:351;382@406.5#191.0
+ person:357;381@403.5#192.5
+
+
+ person:388;384@438.0#288.0
+ person:381;388@443.5#286.0
+ person:379;375@433.5#292.5
+ person:388;380@434.0#290.0
+ person:379;375@437.5#292.5
+ person:388;379@434.0#290.5
+ person:388;375@434.0#292.5
+ person:380;388@428.0#286.0
+ person:388;380@426.0#290.0
+ person:388;380@426.0#290.0
+ person:388;386@428.0#287.0
+ person:388;380@426.0#290.0
+ person:388;386@428.0#287.0
+ person:391;388@433.5#286.0
+ person:383;387@433.5#286.5
+ person:396;385@426.0#287.5
+ person:396;385@426.0#287.5
+ person:391;388@433.5#286.0
+ person:388;380@426.0#290.0
+ person:388;380@426.0#290.0
+ person:391;383@428.5#288.5
+ person:388;386@428.0#287.0
+ person:388;380@426.0#290.0
+ person:388;386@428.0#287.0
+ person:381;383@433.5#288.5
+ person:388;380@422.0#290.0
+ person:380;388@428.0#286.0
+ person:381;388@433.5#286.0
+ person:293;341@337.5#193.5
+ person:298;338@408.0#169.0
+ person:305;340@353.5#172.0
+ person:300;340@345.0#170.0
+ person:292;332@345.0#169.0
+ person:299;338@344.5#169.0
+ person:292;333@345.0#166.5
+ person:292;333@345.0#166.5
+ person:295;329@342.5#168.5
+ person:301;333@344.5#166.5
+ person:299;341@341.5#170.5
+ person:299;333@341.5#167.5
+ person:299;333@343.5#166.5
+ person:294;328@342.0#165.0
+ person:292;326@341.0#166.0
+ person:292;326@341.0#166.0
+ person:299;330@343.5#165.0
+ person:301;333@342.5#166.5
+ person:295;333@344.5#166.5
+ person:299;333@341.5#166.5
+ person:300;333@345.0#166.5
+ person:293;361@490.5#180.5
+ person:295;343@285.5#184.5
+ person:285;340@272.5#210.0
+ person:293;341@259.5#225.5
+ person:287;326@260.5#237.0
+ person:293;334@257.5#237.0
+ person:287;333@262.5#239.5
+ person:287;334@257.5#237.0
+ person:293;340@257.5#240.0
+ person:287;334@260.5#240.0
+ person:287;334@259.5#242.0
+ person:287;334@260.5#240.0
+ person:293;334@257.5#240.0
+ person:293;341@260.5#239.5
+ person:287;334@260.5#240.0
+ person:287;334@259.5#240.0
+ person:293;341@257.5#239.5
+ person:293;334@254.5#240.0
+ person:287;334@262.5#242.0
+ person:287;334@259.5#242.0
+ person:287;334@259.5#242.0
+ person:293;341@257.5#239.5
+ person:293;334@257.5#240.0
+ person:287;334@259.5#240.0
+ person:287;326@260.5#240.0
+ person:281;326@262.5#240.0
+ person:287;334@260.5#240.0
+ person:286;334@268.0#237.0
+ person:281;333@265.5#239.5
+ person:286;333@268.0#239.5
+ person:280;326@266.0#234.0
+ person:281;333@262.5#232.5
+ person:298;378@487.0#210.0
+ person:303;380@488.5#216.0
+ person:522;479@328.0#240.5
+ person:512;480@328.0#240.0
+ person:512;479@334.0#240.5
+ person:490;479@328.0#240.5
+ person:468;474@328.0#243.0
+ person:459;474@309.5#243.0
+ person:459;479@291.5#240.5
+ person:460;480@272.0#240.0
+ person:449;480@261.5#240.0
+ person:450;480@261.0#240.0
+ person:440;475@256.0#242.5
+ person:439;474@261.5#243.0
+ person:441;480@259.5#240.0
+ person:449;480@267.5#240.0
+ person:440;480@272.0#240.0
+ person:449;480@279.5#240.0
+ person:470;480@300.0#240.0
+ person:548;475@295.0#242.5
+Object is little close : 12
+Rohan and Havish asked me to stop
+Object is little close : 21
+Rohan and Havish asked me to stop
+Object is little close : 9
+Rohan and Havish asked me to stop
+Object is little close : 12
+Rohan and Havish asked me to stop
+Object is little close : 14
+Rohan and Havish asked me to stop
+Object is little close : 17
+Rohan and Havish asked me to stop
+Object is little close : 15
+Rohan and Havish asked me to stop
+Object is little close : 12
+Rohan and Havish asked me to stop
+Object is little close : 11
+Rohan and Havish asked me to stop
+ person:358;399@406.0#204.5
+Object is little close : 11
+Rohan and Havish asked me to stop
+ person:351;391@410.5#199.5
+ person:351;391@410.5#199.5
+ person:359;391@410.5#199.5
+ person:359;391@410.5#199.5
+ person:356;389@409.0#203.5
+ person:350;394@404.0#197.0
+ person:350;394@404.0#197.0
+Object is little close : 11
+Rohan and Havish asked me to stop
+ person:351;391@406.5#199.5
+ person:350;385@401.0#192.5
+ person:358;399@406.0#199.5
+ person:357;389@402.5#197.5
+ person:351;383@406.5#195.5
+ person:343;373@406.5#186.5
+ person:351;374@406.5#191.0
+ person:351;374@406.5#191.0
+Object is little close : 12
+Rohan and Havish asked me to stop
+ person:351;374@406.5#191.0
+ person:351;382@406.5#191.0
+ person:357;381@403.5#192.5

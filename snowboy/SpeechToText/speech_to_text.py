@@ -118,12 +118,8 @@ def play_mp3(path):
     # it's run after the fork() and before  exec() to run the shell.
     #pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, 
     #                       shell=True, preexec_fn=os.setsid) 
-
-    #os.killpg(os.getpgid(pro.pid), signal.SIGTERM)  # Send the signal 
+    subprocess.Popen(['mpg123', '-q', path])
     
-    subprocessPid = subprocess.Popen(['mpg123', '-q', path]).pid
-    #publish.single(MQTT_PATH, 'speech:song' + str(subprocessPid), hostname=MQTT_SERVER)
-    return subprocessPid
     
 
 if __name__ == "__main__":
