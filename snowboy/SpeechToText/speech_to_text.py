@@ -60,7 +60,7 @@ def main():
         if (text.find("left") != -1):
             print('left found')
             subpid = publish.single(MQTT_PATH, 'speech:left', hostname=MQTT_SERVER)
-        if (text.find("go") != -1):
+        if (text.find("forward") != -1):
             print('forward found')
             subpid = publish.single(MQTT_PATH, 'speech:forward', hostname=MQTT_SERVER)
             play_mp3('/home/pi/projects/NewRover/voices/Rohan.mp3')
@@ -97,13 +97,12 @@ def main():
             print('Singing katy perry Dark Horse song')
             subpid = play_mp3('/home/pi/Songs/DarkHorse.mp3')
             #publish.single(MQTT_PATH, 'speech:song' + subpid, hostname=MQTT_SERVER)
-        if (text.find("Happy") != -1) |(text.find("happy") != -1) :
-            print('Singing Happy Happy song')
-            subpid = play_mp3('/home/pi/Songs/HappyHappy.mp3')
-            #publish.single(MQTT_PATH, 'speech:song' + subpid, hostname=MQTT_SERVER)
-        if (text.find("cool kid") != -1) | (text.find("cool") != -1) | (text.find("kid") != -1):
-            print('Singing Echo smith Cool kids song')
-            subpid = play_mp3('/home/pi/Songs/CoolKids.mp3')
+        else: 
+            #This steps will find all mp3 files in resource folder to match with search string and then play.
+            dir_path = os.path.dirname(os.path.realpath(__file__)) 
+            fName=getFile(text)
+            #print(str(fName) )
+            subpid=play_mp3(str(fName) )
             
     except Exception as e:
         print (e)
@@ -112,7 +111,12 @@ def main():
     except r.RequestError as e:
         print ('failed'.format(e))
         
-
+def getFile(fileName):
+    import glob
+    fileName='*' + fileName + '*.mp3'
+    results=glob.glob("/home/pi/projects/NewRover/snowboy/resources/" + fileName)
+    return results[0]
+    
 def play_mp3(path):
     # The os.setsid() is passed in the argument preexec_fn so
     # it's run after the fork() and before  exec() to run the shell.
