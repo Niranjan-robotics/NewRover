@@ -203,7 +203,8 @@ if __name__ == "__main__":
                          Google Coral USB." )
 
     parser.add_argument( '--model', type=str,
-                         default='./all_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite',
+                         default='/home/pi/edgetpu/niranjan_trained_model_edgetpu.tflite',
+                         #default='./all_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite',
                          help="Path to the neural network graph file." )
 
     parser.add_argument( '--labels', type=str,
