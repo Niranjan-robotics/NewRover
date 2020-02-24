@@ -37,28 +37,130 @@ def set_servo_pulse(channel, pulse):
 def setFreq(pwmFreq=50):
     pwm.set_pwm_freq(pwmFreq)
     
+def deInitServo():
+    pwm.deinti()    
 # tild commands    
         
-def lookUp():
+def lookUp90():
     print("Looking up")
-    pwm.set_pwm(0, 0, servo_max)
-    #publish.single(MQTT_PATH, 'current status: up', hostname=MQTT_SERVER)
+    #look 90 degree up
+    pwm.set_pwm(0, 100, 200)
     time.sleep(1)
+    #publish.single(MQTT_PATH, 'current status: up', hostname=MQTT_SERVER)
+    
+def lookUp70():
+    print("Looking up")
+    #look 90 degree up
+    #look straigh and up 70 degree
+    pwm.set_pwm(0, 100, 300)
+    time.sleep(1)
+    #publish.single(MQTT_PATH, 'current status: up', hostname=MQTT_SERVER)
     
 def lookStraight():
     print("look straight")
-    pwm.set_pwm(0, 0, servo_mid)
-    #publish.single(MQTT_PATH, 'current status: straight', hostname=MQTT_SERVER)
+    pwm.set_pwm(0, 100, 300)
     time.sleep(1)
+    pwm.set_pwm(1, 0, 420)
+    time.sleep(1)
+    #publish.single(MQTT_PATH, 'current status: straight', hostname=MQTT_SERVER)
     
-def lookDown():
+def lookDownMax():
     print("look down")
-    pwm.set_pwm(0, 0, servo_min)
+    pwm.set_pwm(0, 50, 450)
+    time.sleep(1)
     #publish.single(MQTT_PATH, 'current status: down', hostname=MQTT_SERVER)
     time.sleep(1)
-    
-#setFreq()    
-#lookDown()    
-#lookStraight()
-#lookUp()
 
+def lookLeft():
+    print("look left")
+    pwm.set_pwm(0, 0, 300)
+    time.sleep(1)
+    pwm.set_pwm(1, 0, 420)
+    time.sleep(1)
+    pwm.set_pwm(1, 0, 600)
+    time.sleep(1)
+    #publish.single(MQTT_PATH, 'current status: straight', hostname=MQTT_SERVER)
+
+def lookRight():
+    print("look left")
+    pwm.set_pwm(0, 100, 300)
+    time.sleep(1)
+    pwm.set_pwm(1, 0, 250)
+    time.sleep(1)
+    pwm.set_pwm(0, 100, 300)
+    time.sleep(1)
+    #publish.single(MQTT_PATH, 'current status: straight', hostname=MQTT_SERVER)
+
+def lookBackRight():
+    print("look back")
+    pwm.set_pwm(0, 0, 24)
+    time.sleep(1)
+    pwm.set_pwm(1, 0, 24)
+    time.sleep(1)
+    pwm.set_pwm(1, 0, 250)
+    time.sleep(1)
+
+def MultiAngleTest():
+    for i in range(180):
+        pwm.set_pwm( i)
+    for i in range(180):
+        pwm.set_pwm(1, 0,180 - i)
+    deInitServo()
+    
+
+setFreq()    
+lookUp90()
+lookStraight()
+lookLeft()
+lookRight()
+
+
+# #============================================== look up down ===========
+# #look up
+# pwm.set_pwm(0, 0, 24)
+# pwm.set_pwm(1, 0, 24)
+# time.sleep(1)
+# #look strait
+# pwm.set_pwm(0, 0, 24)
+
+# time.sleep(1)
+# #pwm.set_pwm(0, 0, 180)
+
+# time.sleep(1)
+
+# pwm.set_pwm(0, 0, 350)
+# # #left
+# #pwm.set_pwm(1, 1024, 3072)
+# time.sleep(2)
+# #straight
+# pwm.set_pwm(1, 0, 420)
+# time.sleep(2)
+# pwm.set_pwm(0, 0, 300)
+# time.sleep(2)
+# #look straigh and up 70 degree
+# pwm.set_pwm(0, 100, 300)
+# time.sleep(2)
+# #look 90 degree up
+# pwm.set_pwm(0, 100, 200)
+# time.sleep(2)
+
+# #look down forward -max
+# pwm.set_pwm(0, 50, 450)
+# time.sleep(1)
+
+
+# #to move right first reset to straight
+# pwm.set_pwm(0, 100, 300)
+# time.sleep(1)
+# pwm.set_pwm(1, 0, 250)
+# time.sleep(1)
+# pwm.set_pwm(0, 100, 300)
+# time.sleep(1)
+
+# #to move left first reset to straight
+# pwm.set_pwm(0, 0, 300)
+# time.sleep(1)
+# pwm.set_pwm(1, 0, 420)
+# time.sleep(1)
+# pwm.set_pwm(1, 0, 600)
+# time.sleep(1)
