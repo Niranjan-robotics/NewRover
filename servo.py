@@ -17,10 +17,14 @@ MQTT_PATH = "test_servo"
 # Initialise the PCA9685 using the default address (0x40).
 pwm = Adafruit_PCA9685.PCA9685()
 
-# Configure min ,mid and max servo pulse lengths
-servo_min = -20  # Min pulse length out of 4096
-servo_max = 70  # Max pulse length out of 4096
-servo_mid = 0  # Max pulse length out of 4096
+#turn left right values
+hori_left_max= 520
+hori_straight_= 420
+hori_right_max= 100
+#turn left right values
+vert_up_max= 200 ##pwm.set_pwm(0, 100, 200)
+vert_straight_= 420  #pwm.set_pwm(0, 0, 420)
+vert_down_max= 435  #pwm.set_pwm(0, 50, 450)
 
 
 # Helper function to make setting a servo pulse width simpler.
@@ -82,7 +86,7 @@ def lookLeft():
     #publish.single(MQTT_PATH, 'current status: straight', hostname=MQTT_SERVER)
 
 def lookRight():
-    print("look left")
+    print("look right")
     pwm.set_pwm(0, 100, 300)
     time.sleep(1)
     pwm.set_pwm(1, 0, 250)
@@ -100,67 +104,36 @@ def lookBackRight():
     pwm.set_pwm(1, 0, 250)
     time.sleep(1)
 
-def MultiAngleTest():
-    for i in range(180):
-        pwm.set_pwm( i)
-    for i in range(180):
-        pwm.set_pwm(1, 0,180 - i)
-    deInitServo()
-    
+#input range to restrict to given coordinates
+def scanLeft():
+    lookStraight()
+    for i in range(421,520):
+        pwm.set_pwm(1, 0, i)
+        print(i)
+        time.sleep(0.1)
 
+#input range to restrict to given coordinates
+def scanRight():
+    lookStraight()
+    for i in range(200):
+        pwm.set_pwm(1, 0, 420 - i)
+        print(i)
+        time.sleep(0.1)
+        
+#input range to restrict to given coordinates
+def scanDown():
+    lookStraight()
+    for i in range(vert_up_max,vert_down_max):
+        pwm.set_pwm(0, 50, i)
+        print(i)
+        time.sleep(0.1)        
+
+#========================================================            
 setFreq()    
 lookUp90()
 lookStraight()
 lookLeft()
 lookRight()
-
-
-# #============================================== look up down ===========
-# #look up
-# pwm.set_pwm(0, 0, 24)
-# pwm.set_pwm(1, 0, 24)
-# time.sleep(1)
-# #look strait
-# pwm.set_pwm(0, 0, 24)
-
-# time.sleep(1)
-# #pwm.set_pwm(0, 0, 180)
-
-# time.sleep(1)
-
-# pwm.set_pwm(0, 0, 350)
-# # #left
-# #pwm.set_pwm(1, 1024, 3072)
-# time.sleep(2)
-# #straight
-# pwm.set_pwm(1, 0, 420)
-# time.sleep(2)
-# pwm.set_pwm(0, 0, 300)
-# time.sleep(2)
-# #look straigh and up 70 degree
-# pwm.set_pwm(0, 100, 300)
-# time.sleep(2)
-# #look 90 degree up
-# pwm.set_pwm(0, 100, 200)
-# time.sleep(2)
-
-# #look down forward -max
-# pwm.set_pwm(0, 50, 450)
-# time.sleep(1)
-
-
-# #to move right first reset to straight
-# pwm.set_pwm(0, 100, 300)
-# time.sleep(1)
-# pwm.set_pwm(1, 0, 250)
-# time.sleep(1)
-# pwm.set_pwm(0, 100, 300)
-# time.sleep(1)
-
-# #to move left first reset to straight
-# pwm.set_pwm(0, 0, 300)
-# time.sleep(1)
-# pwm.set_pwm(1, 0, 420)
-# time.sleep(1)
-# pwm.set_pwm(1, 0, 600)
-# time.sleep(1)
+scanLeft()
+scanRight()
+scanDown()
