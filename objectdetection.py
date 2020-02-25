@@ -187,6 +187,84 @@ def main():
     vs.stop()
     time.sleep(2)
 
+def nircustomDetection():
+
+    # Load the labels file
+    labels =[ line.rstrip('\n') for line in
+              open( ARGS.labels ) if line != 'classes\n']
+
+    print(ARGS)
+    # Load the labels file
+    labels =[ line.rstrip('\n') for line in
+              open( ARGS.labels ) if line != 'classes\n']
+
+    # Store labels for matching with inference results
+    labels = ReadLabelFile(ARGS.labels) if ARGS.labels else None
+
+    # Specify font for labels
+    font = PIL.ImageFont.truetype("/usr/share/fonts/truetype/piboto/Piboto-Regular.ttf", 20)
+
+    # If --picamera is not set then default to USB Camera
+    if ARGS.picamera:
+        print("Using Video Stream from PiCamera.")
+    else:
+        print("Using Video Stream from USB Camera.")
+
+    # Use Google Corals own DetectionEngine for handling
+    # communication with the Coral
+    inferenceEngine = edgetpu.detection.engine.DetectionEngine('./all_models/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite') #'mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite')
+    #inferenceEngine = edgetpu.detection.engine.DetectionEngine('mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite')
+
+    # #============= niranjan edited ============
+    # camera_device = ARGS.picamera
+    # #-- 2. Read the video stream
+    vs = cv2.VideoCapture(0)
+    # # set the format into MJPG in the FourCC format 
+    vs.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
+    if not vs.isOpened:
+        print('--(!)Error opening video capture')
+        exit(0)
+    
+    # #============== end edit======= uncomment following commented lines when not using above code====================
+    ## Use imutils to count Frames Per Second (FPS)
+    fps = FPS().start()
+
+    ## Capture live stream & send frames for preprocessing, inference and annotation
+    while message.find('face') != -1:
+        try:
+
+            # Read frame from video and prepare for inference
+            frame, screenshot = vs.read()
+
+            # Prepare screenshot for annotation by reading it into a PIL IMAGE object
+            image = Image.fromarray(screenshot)
+
+            # Perform inference and note time taken
+            startMs = time.time()
+            inferenceResults = inferenceEngine.DetectWithImage(image, threshold=ARGS.confidence, keep_aspect_ratio=True, relative_coord=False, top_k=ARGS.maxobjects)
+            elapsedMs = time.time() - startMs
+
+            # Annotate and display
+            annotate_and_display( image, inferenceResults, elapsedMs, labels, font )
+
+            # Display the frame for 5ms, and close the window so that the next
+            # frame can be displayed. Close the window if 'q' or 'Q' is pressed.
+            if( cv2.waitKey( 2 ) & 0xFF == ord( 'q' ) ):
+                fps.stop()
+                break
+
+            fps.update()
+
+        # Allows graceful exit using ctrl-c (handy for headless mode).
+        except KeyboardInterrupt:
+            fps.stop()
+            break
+    
+    vs.release()
+    cv2.destroyAllWindows()
+    vs.stop()
+    time.sleep(2)
+
 
 if __name__ == "__main__":
 

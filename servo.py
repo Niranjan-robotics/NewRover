@@ -62,9 +62,11 @@ def lookUp70():
     
 def lookStraight():
     print("look straight")
-    pwm.set_pwm(0, 100, 300)
-    time.sleep(1)
+    #pwm.set_pwm(0, 100, 300)
+    #time.sleep(1)
     pwm.set_pwm(1, 0, 420)
+    time.sleep(1)
+    pwm.set_pwm(0, 0, 300)
     time.sleep(1)
     #publish.single(MQTT_PATH, 'current status: straight', hostname=MQTT_SERVER)
     
@@ -129,11 +131,13 @@ def scanDown():
         time.sleep(0.1)        
 
 #========================================================            
-setFreq()    
-lookUp90()
-lookStraight()
-lookLeft()
-lookRight()
-scanLeft()
-scanRight()
-scanDown()
+#setFreq()    
+#lookUp90()
+#lookBackRight()
+#lookStraight()
+#lookLeft()
+#lookRight()
+#scanLeft()
+#scanRight()
+#scanDown()
+
