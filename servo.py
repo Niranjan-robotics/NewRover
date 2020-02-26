@@ -103,7 +103,7 @@ def lookBackRight():
     time.sleep(1)
     pwm.set_pwm(1, 0, 24)
     time.sleep(1)
-    pwm.set_pwm(1, 0, 250)
+    #pwm.set_pwm(1, 0, 250)
     time.sleep(1)
 
 #input range to restrict to given coordinates
@@ -133,8 +133,9 @@ def scanDown():
 #========================================================            
 #setFreq()    
 #lookUp90()
-#lookBackRight()
 #lookStraight()
+#lookBackRight()
+#lookDownMax()
 #lookLeft()
 #lookRight()
 #scanLeft()
