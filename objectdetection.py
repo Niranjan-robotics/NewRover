@@ -34,6 +34,8 @@ from edgetpu.basic import edgetpu_utils
 from imutils.video import FPS
 from imutils.video import VideoStream
 import multiprocessing as mp
+from subprocess import call
+from subprocess import Popen, PIPE
 
 MQTT_SERVER = "localhost"
 MQTT_PATH = "test_objectdetection"
@@ -61,9 +63,22 @@ def annotate_and_display ( image, inferenceResults, elapsedMs, labels, font ):
     # Iterate through result list. Note that results are already sorted by
     # confidence score (highest to lowest) and records with a lower score
     # than the threshold are already removed.
+    #niranjan edited
+
+    #end edit
     result_size = len(inferenceResults)
     for idx, obj in enumerate(inferenceResults):
-
+    
+        # ============== niranjan edited ============
+        #call classify image after face detected
+        if(labels[obj.label_id].find('person') != -1):
+            screensh=image
+            print("start Image detection ")
+            cv2.imwrite("myfilename.jpg",numpy.asarray( image ))
+            time.sleep(0.1)
+            msgout = Popen(["bash /home/pi/projects/NewRover/ClassifyImageRuntime.sh %s" %("/home/pi/projects/NewRover/myfilename.jpg")], shell = True,stdout=PIPE, stderr=PIPE, stdin=PIPE)
+            print("end image detection")
+        #============================================
         # Prepare image for drawing
         draw = PIL.ImageDraw.Draw( image )
 
@@ -100,8 +115,6 @@ def annotate_and_display ( image, inferenceResults, elapsedMs, labels, font ):
         outputString = outputString + ";" + str(endY-startY)  # str can only take 3 objects or something like that
         outputString = outputString + "@" + str(objX)
         outputString = outputString + "#" + str(objY)
-        
-        #client.publish(MQTT_PATH, outputString)
         publish.single(MQTT_PATH, 'objectdetection: ' + outputString, hostname=MQTT_SERVER)
 
     # If a display is available, show the image on which inference was performed
@@ -157,10 +170,19 @@ def main():
 
             # Read frame from video and prepare for inference
             frame, screenshot = vs.read()
-
+            #cv2.imwrite("myfilename.jpg",screenshot) #save image
+            
             # Prepare screenshot for annotation by reading it into a PIL IMAGE object
             image = Image.fromarray(screenshot)
-
+            
+            
+            # ============== niranjan edited ============
+            #call classify image after face detected
+            #print("start Image detection ")
+            #out = Popen(["bash /home/pi/projects/NewRover/ClassifyImageRuntime.sh %s" %("/home/pi/projects/NewRover/myfilename.jpg")], shell = True,stdout=PIPE, stderr=PIPE, stdin=PIPE)
+            #print("end image detection")
+            #============================================
+            
             # Perform inference and note time taken
             startMs = time.time()
             inferenceResults = inferenceEngine.DetectWithImage(image, threshold=ARGS.confidence, keep_aspect_ratio=True, relative_coord=False, top_k=ARGS.maxobjects)
