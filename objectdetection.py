@@ -69,16 +69,16 @@ def annotate_and_display ( image, inferenceResults, elapsedMs, labels, font ):
     result_size = len(inferenceResults)
     for idx, obj in enumerate(inferenceResults):
     
-        # ============== niranjan edited ============
-        #call classify image after face detected
-        if(labels[obj.label_id].find('person') != -1):
-            screensh=image
-            print("start Image detection ")
-            cv2.imwrite("myfilename.jpg",numpy.asarray( image ))
-            time.sleep(0.1)
-            msgout = Popen(["bash /home/pi/projects/NewRover/ClassifyImageRuntime.sh %s" %("/home/pi/projects/NewRover/myfilename.jpg")], shell = True,stdout=PIPE, stderr=PIPE, stdin=PIPE)
-            print("end image detection")
-        #============================================
+        # # ============== niranjan edited ============
+        # #call classify image after face detected
+        # if(labels[obj.label_id].find('person') != -1):
+            # screensh=image
+            # print("start Image detection ")
+            # cv2.imwrite("myfilename.jpg",numpy.asarray( image ))
+            # time.sleep(0.1)
+            # msgout = Popen(["bash /home/pi/projects/NewRover/ClassifyImageRuntime.sh %s" %("/home/pi/projects/NewRover/myfilename.jpg")], shell = True,stdout=PIPE, stderr=PIPE, stdin=PIPE)
+            # print("end image detection")
+        # #============================================
         # Prepare image for drawing
         draw = PIL.ImageDraw.Draw( image )
 
