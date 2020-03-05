@@ -15,6 +15,9 @@ MQTT_PATH = "test_channel"
 camera_view =''
 tf_in=''
 
+#============== usage ==========
+#while running this run some publishing program like servo / classifyimageoncamera.py
+
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
  
@@ -85,12 +88,20 @@ if __name__ == "__main__":
     
     try:
         while True:
-            if (camera_view.find('person') != -1):
+            if (camera_view.find('Niranjan:') != -1):
                 print("Object found is  : " + str(camera_view))
-                subprocess.Popen(['mpg123', '-q', '/home/pi/projects/NewRover/snowboy/resources/I see You.mp3'])
-                time.sleep(10)
-                camera_view= ''
-                tf_in=''
+                subprocess.Popen(['mpg123', '-q', '/home/pi/projects/NewRover/snowboy/resources/Niranjan.mp3'])
+            if (camera_view.find('Smitha') != -1):
+                print("Object found is  : " + str(camera_view))
+                subprocess.Popen(['mpg123', '-q', '/home/pi/projects/NewRover/snowboy/resources/Smitha.mp3'])
+            if (camera_view.find('Rohan') != -1):
+                print("Object found is  : " + str(camera_view))
+                subprocess.Popen(['mpg123', '-q', '/home/pi/projects/NewRover/snowboy/resources/Rohan.mp3'])
+            if (camera_view.find('Havish') != -1):
+                print("Object found is  : " + str(camera_view))
+                subprocess.Popen(['mpg123', '-q', '/home/pi/projects/NewRover/snowboy/resources/havish.mp3'])                                
+            camera_view= ''
+            tf_in=''
                 
     # Keep looping until a key is pressed.
     except KeyboardInterrupt:
