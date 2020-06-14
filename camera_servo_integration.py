@@ -17,6 +17,8 @@ tf_in=''
 
 #============== usage ==========
 #while running this run some publishing program like servo / classifyimageoncamera.py
+#pi@raspberrypi:~/projects/NewRover $ python3 classifyImageOnCamera.py 
+
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
@@ -61,9 +63,9 @@ def on_message(client, userdata, msg):
     
     tf_in = (str(msg.payload))
     
-    if (tf_in.find("objectdetection:") != -1):
+    if (tf_in.find("objectdetection>") != -1):
         length = len(tf_in)
-        pos1 = tf_in.find(':')  # split up the input string
+        pos1 = tf_in.find('>')  # split up the input string
         face_move = tf_in[(pos1+1):(length)]  # this will give you voice command
         camera_view = face_move=face_move.replace("'","")
         print(camera_view)
@@ -100,6 +102,10 @@ if __name__ == "__main__":
             if (camera_view.find('Havish') != -1):
                 print("Object found is  : " + str(camera_view))
                 subprocess.Popen(['mpg123', '-q', '/home/pi/projects/NewRover/snowboy/resources/havish.mp3'])                                
+            if (camera_view.find('stop:') != -1):
+                print("Object found is  : " + str(camera_view))
+                subprocess.Popen(['mpg123', '-q', '/home/pi/projects/NewRover/snowboy/resources/Stop there.mp3'])                                
+                
             camera_view= ''
             tf_in=''
                 

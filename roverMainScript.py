@@ -51,7 +51,7 @@ firstRun = True
 
 motors.motorSetup()
 servo.setFreq(50)
-servo.lookDown()
+
 
 
 # The callback for when the client receives a CONNACK response from the server.

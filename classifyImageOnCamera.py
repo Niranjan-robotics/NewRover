@@ -5,18 +5,9 @@ from subprocess import call
 from subprocess import Popen, PIPE
 import paho.mqtt.client as mqtt
 
-MQTT_SERVER = "localhost"
-MQTT_PATH = "test_channel"
+#usage - use listener of this message =
+#    pi@raspberrypi:~/projects/NewRover $ python3 camera_servo_intergration.py
 
-def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
- 
-    # Subscribing in on_connect() means that if we lose the connection and
-    # reconnect then subscriptions will be renewed.
-    client.subscribe(MQTT_PATH)
-    client.subscribe("test_servo")
-    client.subscribe("test_objectdetection")
-    
 camera = cv2.VideoCapture(0)
 camera.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
 if not camera.isOpened:
