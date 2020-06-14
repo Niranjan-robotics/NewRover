@@ -9,7 +9,6 @@ import paho.mqtt.publish as publish
 MQTT_SERVER = "localhost"
 MQTT_PATH = "test_servo"
 
-
 # Uncomment to enable debug output.
 #import logging
 #logging.basicConfig(level=logging.DEBUG)
@@ -21,6 +20,7 @@ pwm = Adafruit_PCA9685.PCA9685()
 hori_left_max= 520
 hori_straight_= 420
 hori_right_max= 100
+
 #turn left right values
 vert_up_max= 200 ##pwm.set_pwm(0, 100, 200)
 vert_straight_= 420  #pwm.set_pwm(0, 0, 420)
@@ -129,11 +129,27 @@ def scanDown():
         pwm.set_pwm(0, 50, i)
         print(i)
         time.sleep(0.1)        
+        
+#=========================== camera control back commands ===================
+#Vertical movements
+def scanUpDown(targetPosition):
+    print(targetPosition)
+    
+    if (targetPosition > vert_up_max) & (targetPosition < vert_down_max):
+        pwm.set_pwm(0, 50, targetPosition)
+        
+#Horizontal movements
+def scanLeftRight(targetPosition):
+    print(targetPosition)
+    print(hori_right_max)
+    print(hori_left_max)
+    if (targetPosition >= hori_right_max) & (targetPosition <= hori_left_max):
+        pwm.set_pwm(1, 0, targetPosition)        
 
 #========================================================            
 setFreq()    
 lookUp90()
-lookStraight()
+# lookStraight()
 # lookBackRight()
 # lookDownMax()
 # lookLeft()

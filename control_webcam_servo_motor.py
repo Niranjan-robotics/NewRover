@@ -13,29 +13,41 @@ cap = cv2.VideoCapture(0)
 cap.set(3, 480)
 cap.set(4, 320)
 
+
 cap.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
+# cap.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('Y','U','Y','V'))
 
 _, frame = cap.read()
 rows, cols, _ = frame.shape
 
 x_medium = int(cols / 2)
 center = int(cols / 2)
-print("center" + str(center))
-print("x_medium" + str(x_medium))
+
+c= str.format("center:{0}   x_medium: {1}",str(center),str(x_medium))
+print(c)
+
 #left x_medium = 0 and rightmost = 500 center 250
 # To match servo center420 with x-medium center 250 - get diff=420-250 = 170
 #To move to left get (x-medium + 170)
-position = 90 # degrees
+position = 410 # center position
+
+#turn left right values
+hori_left_max= 520   #left
+hori_straight= 420  #Center
+hori_right_max= 100   #right
+
+#turn left right values
+vert_up_max= 200 ##pwm.set_pwm(0, 100, 200)
+vert_straight_= 420  #pwm.set_pwm(0, 0, 420)
+vert_down_max= 435  #pwm.set_pwm(0, 50, 450)
+
 servo.lookStraight()
 
-def SearchPerson(curPosition):
-    
-    # right
-    
-    time.sleep(0.1)
-    # for i in range(421,520):
-        # pwm.set_pwm(1, 0, i)
-        # time.sleep(0.1)
+#recenter
+def receterPosition():
+    x_medium = int(cols / 2)
+    center = int(cols / 2)        
+    servo.pwm.set_pwm(1, 0, position)
         
 while True:
     _, frame = cap.read()
@@ -73,14 +85,20 @@ while True:
         break
     
     # Move servo motor
-    if x_medium < center -30:
+    if (position < servo.hori_right_max) or (position > servo.hori_left_max): 
+        position = servo.hori_straight_
+    elif x_medium < center -30:
         position += (2)
-        print("x_medium" + str(x_medium))
+        c= str.format("center:{0}   x_medium: {1}  Position: {2}",str(center),str(x_medium) ,str(position))
+        print(c)
     elif x_medium > center + 30:
         position -= (2)
-        print("x_medium" + str(x_medium))
+        c= str.format("center:{0}   x_medium: {1}  Position: {2}",str(center),str(x_medium) ,str(position))
+        print(c)
         
-    servo.pwm.set_pwm(1, 0, position)
+        
+    # servo.pwm.set_pwm(1, 0, position)
+    servo.scanLeftRight(position)
     
 cap.release()
 cv2.destroyAllWindows()
