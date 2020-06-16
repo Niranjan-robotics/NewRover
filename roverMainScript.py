@@ -113,20 +113,69 @@ def on_message(client, userdata, msg):
         voiceString = tf_in[(pos1+1):(length)]  # this will give you voice command
         voiceString=voiceString.replace("'","")
 
-    if (tf_in.find("current status:") != -1):
-        length = len(tf_in)
-        pos1 = tf_in.find(':')  # split up the input string
-        face_move = tf_in[(pos1+1):(length)]  # this will give you voice command
-        motor_direction = face_move=face_move.replace("'","")
-        
-    if (tf_in.find("objectdetection:") != -1):
+    if (tf_in.find("person:") != -1):
         length = len(tf_in)
         pos1 = tf_in.find(':')  # split up the input string
         face_move = tf_in[(pos1+1):(length)]  # this will give you voice command
         camera_view = face_move=face_move.replace("'","")
+        startTime = time.time()
+        length = len(tf_in)
+        pos1 = tf_in.find(':')  # split up the input string
+        pos2 = tf_in.find(';')
+        pos3 = tf_in.find('@')
+        pos4 = tf_in.find('#')
+        width = tf_in[(pos1+1):pos2]  # this will give you the width of the person
+        width = int(width)
+        height = tf_in[(pos2 + 1):pos3]  # this will give you the height of the person
+        height = int(height)
+        tf_face_size = width * height
+        face_array[2] = face_array[1]
+        face_array[1] = face_array[0]
+        face_array[0] = tf_face_size
+        avgFace = face_array[2] + face_array[1] + face_array[0]
+        avgFace = avgFace / 3.0
+        print("**************************************I am in face detection")
         print(camera_view)
-
+        print(avgX)
+        print(avgFace)
+        print(tf_xPos)
+        print(tf_yPos)
+        tf_xPos = float(tf_in[(pos3 + 1):pos4])
+        tf_yPos = float(tf_in[(pos4+1):length])
+        yCord[2] = yCord[1]
+        yCord[1] = yCord[0]
+        yCord[0] = tf_yPos
+        avgY = yCord[2] + yCord[1] + yCord[0]
+        avgY = avgY / 3.0
+        xCord[2] = xCord[1]
+        xCord[1] = xCord[0]
+        xCord[0] = tf_xPos
+        avgX = xCord[2] + xCord[1] + xCord[0]
+        avgX = avgX / 3.0
+        print("avg size ", avgFace, "xpos ", tf_xPos, "ypos ", tf_yPos,)
         
+        if start_face_needed == True:
+            start_face_distance = tf_face_size
+            start_face_needed = False
+       
+        
+        if avgX == 0:
+            motor_direction == "unsure"
+        elif avgX>470:
+            motor_direction = "left"
+        elif avgX<170:
+            motor_direction = "right"
+        elif avgX <470 and avgX >170:
+            motor_direction = "neither"
+        if (currentDetection == "face"):
+            if (avgFace > (start_face_distance + 8000)): #100 is a filter
+                face_move = "further"
+            elif (avgFace < (start_face_distance -8000)):
+                face_move = "closer"
+            else:
+                face_move = ""
+        t = 0
+    
 client = mqtt.Client()
 client.on_connect = on_connect
 client.connect(MQTT_SERVER, 1883, 60)
@@ -147,7 +196,10 @@ if __name__ == "__main__":
     try:
         while True:
             firstRun == False
-            currentDetection="distance"
+            currentDetection="face"
+            if (currentDetection == "face"):
+                print("=============================motor_direction======>  : " + motor_direction)
+                
             if (distance < minDistance):
                 print("Object is little close : " + str(distance))
                 motors.stopThere()

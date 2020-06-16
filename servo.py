@@ -149,7 +149,7 @@ def scanLeftRight(targetPosition):
 #========================================================            
 setFreq()    
 lookUp90()
-# lookStraight()
+lookStraight()
 # lookBackRight()
 # lookDownMax()
 # lookLeft()

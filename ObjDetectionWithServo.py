@@ -46,6 +46,14 @@ processes = []
 # Variable to store command line arguments
 ARGS = None
 
+# ==================================== person object =============
+# 278 0   619 333 - center
+# 0   4   210 317  -left most
+# 381 0   640 263 - right most
+# 142 168 382 447 - center down
+# 175 22  406 348 - center up
+# 48  1   548 450 - closeup center
+#===============================================================
     
 # Read labels from text files.
 def ReadLabelFile(file_path):
@@ -97,10 +105,6 @@ def annotate_and_display ( image, inferenceResults, elapsedMs, labels, font ):
         (startX, startY, endX, endY) = box
         
         # Log the current result to terminal
-        # -------------------------------------------------------------------------------------
-        # labels[obj.label_id]: str(endX-startX)  ;str(endY-startY) @ str(objX) # str(objY)
-        # person		      : 348		          ;356		        @ 283.0     # 178.0 
-        # -------------------------------------------------------------------------------------
         print("Object (" + str(idx+1) + " of " + str(result_size) + "): "
               + labels[obj.label_id] + " (" + str(obj.label_id) + ")"
               + ", Confidence:" + str(obj.score)
@@ -119,12 +123,12 @@ def annotate_and_display ( image, inferenceResults, elapsedMs, labels, font ):
         outputString = outputString + ";" + str(endY-startY)  # str can only take 3 objects or something like that
         outputString = outputString + "@" + str(objX)
         outputString = outputString + "#" + str(objY)
-        publish.single(MQTT_PATH, outputString, hostname=MQTT_SERVER)
+        publish.single(MQTT_PATH, 'objectdetection: ' + outputString, hostname=MQTT_SERVER)
 
     # If a display is available, show the image on which inference was performed
     if 'DISPLAY' in os.environ:
         displayImage = numpy.asarray( image )
-        cv2.imshow( 'Image', displayImage )
+        cv2.imshow( 'NCS Improved live inference', displayImage )
 
 def main():
 
@@ -169,8 +173,7 @@ def main():
     fps = FPS().start()
 
     ## Capture live stream & send frames for preprocessing, inference and annotation
-    # while message.find('face') != -1:
-    while message != '':
+    while message.find('face') != -1:
         try:
 
             # Read frame from video and prepare for inference
@@ -332,3 +335,4 @@ if __name__ == "__main__":
 
     ARGS = parser.parse_args()
     main()
+
