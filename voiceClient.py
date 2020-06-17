@@ -54,6 +54,8 @@ if __name__ == '__main__':
     t2 = Thread(target = runB)
     t2.setDaemon(True)
     t2.start()
+    #---------------- trun this off to avoid looping -------------
+    publish.single(MQTT_PATH, 'speech:stop', hostname=MQTT_SERVER)
     try:
         while True:
             firstRun == False

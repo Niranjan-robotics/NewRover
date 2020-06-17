@@ -78,7 +78,8 @@ def stopThere():
     GPIO.output(m2in1,GPIO.LOW)
     GPIO.output(m2in2,GPIO.LOW)
     publish.single(MQTT_PATH, 'current status: stop', hostname=MQTT_SERVER)
-    sleep(0.5)    
+    # publish.single("test_voice", 'speech:stop', hostname=MQTT_SERVER)
+    sleep(0.2)    
 
 def goToSleep():
     GPIO.cleanup()

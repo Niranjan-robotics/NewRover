@@ -7,6 +7,7 @@ import time
 import motors
 import servo
 import objectdetection as obj
+import re
 
 MQTT_SERVER = "localhost"
 MQTT_PATH = "test_channel"
@@ -52,6 +53,11 @@ firstRun = True
 motors.motorSetup()
 servo.setFreq(50)
 
+def getStringBetween(strA,strB,searchString):
+    import re
+    formS=str.format("{0}(.*){1}",strA,strB)
+    result = re.search(formS, searchString)
+    return result.group(1)
 
 
 # The callback for when the client receives a CONNACK response from the server.
@@ -99,7 +105,7 @@ def on_message(client, userdata, msg):
     global subprocess_id
     
     tf_in = (str(msg.payload))
-    
+    print("****************payload********* " + tf_in )
     if (tf_in.find("coco distance:") != -1):
         length = len(tf_in)
         pos1 = tf_in.find(':')  # split up the input string
@@ -114,27 +120,53 @@ def on_message(client, userdata, msg):
         voiceString=voiceString.replace("'","")
 
     if (tf_in.find("person:") != -1):
-        length = len(tf_in)
-        pos1 = tf_in.find(':')  # split up the input string
-        face_move = tf_in[(pos1+1):(length)]  # this will give you voice command
-        camera_view = face_move=face_move.replace("'","")
+        
+        # face_move = tf_in[(pos1+1):(length)]  # this will give you voice command
+        # camera_view = face_move=face_move.replace("'","")
         startTime = time.time()
         length = len(tf_in)
-        pos1 = tf_in.find(':')  # split up the input string
-        pos2 = tf_in.find(';')
-        pos3 = tf_in.find('@')
-        pos4 = tf_in.find('#')
-        width = tf_in[(pos1+1):pos2]  # this will give you the width of the person
-        width = int(width)
-        height = tf_in[(pos2 + 1):pos3]  # this will give you the height of the person
-        height = int(height)
-        tf_face_size = width * height
-        face_array[2] = face_array[1]
-        face_array[1] = face_array[0]
-        face_array[0] = tf_face_size
-        avgFace = face_array[2] + face_array[1] + face_array[0]
-        avgFace = avgFace / 3.0
-        print("**************************************I am in face detection")
+        pos = tf_in.split(':')[1].split('@')  # split up the input string
+        width=int(pos[0]) # this will give you the width of the person
+        height=int(pos[1]) # this will give you the height of the person
+        pos3=int(pos[2])
+        pos4=int(pos[3])
+        startX=int(pos[4])
+        print(pos)
+        # pos1 = getStringBetween(":",";",str(tf_in))
+        # pos2 = getStringBetween(";","@",str(tf_in))
+        # pos3 = getStringBetween("@","#",str(tf_in))
+        # pos4 = getStringBetween("#","$",str(tf_in))
+        
+        print("*********** width ************" + str(width))
+        # tf_face_size = width * height
+        # face_array[2] = face_array[1]
+        # face_array[1] = face_array[0]
+        # face_array[0] = tf_face_size
+        # avgFace = face_array[2] + face_array[1] + face_array[0]
+        # avgFace = avgFace / 3.0
+        #------------nir  perform tracking here using co-ordinates --------------
+        center = 320 # this is fixed based on current resolution if any change adjust the value
+        
+        x_medium = int((startX + startX + width) / 2)
+        print("************** startX  " + str(startX))
+        print("************** x_medium " + str(x_medium))
+        print("************** position " + str(position))
+        
+        coordinates = str.format("******* x_medium : {0} position : {1} startX : {2}",str(x_medium),str(position),str(startX))
+        print(coordinates)
+        
+        # Move servo motor
+        if x_medium < center -30:
+            position += (2)
+            c= str.format("center:{0}   x_medium: {1}  Position: {2}",str(center),str(x_medium) ,str(position))
+            print(c)
+        elif x_medium > center + 30:
+            position -= (2)
+            c= str.format("center:{0}   x_medium: {1}  Position: {2}",str(center),str(x_medium) ,str(position))
+            print(c)
+        # servo.pwm.set_pwm(1, 0, position)
+        servo.scanLeftRight(position)
+        # ---------- end of screen postion --------
         print(camera_view)
         print(avgX)
         print(avgFace)
@@ -158,7 +190,6 @@ def on_message(client, userdata, msg):
             start_face_distance = tf_face_size
             start_face_needed = False
        
-        
         if avgX == 0:
             motor_direction == "unsure"
         elif avgX>470:
@@ -198,8 +229,34 @@ if __name__ == "__main__":
             firstRun == False
             currentDetection="face"
             if (currentDetection == "face"):
-                print("=============================motor_direction======>  : " + motor_direction)
-                
+                # if (time.time() > startTime + 10):
+                    # motor_direction = "unsure"
+                if (motor_direction == "left"):
+                    print ("R")
+                    try:
+                        motors.turnRight()
+                    except:
+                        print("")
+                elif (motor_direction == "right"):
+                    print ("L")
+                    try:
+                        motors.turnLeft()
+                    except:
+                        print("")
+                    #sleep(0.3)
+                    #motor_direction = ""
+                elif (motor_direction == "unsure" and firstRun == False):
+                    print("rotating")
+                    servo.scanLeftRight(500)
+                else:
+                    print("N")
+                    if (face_move == 'further'):
+                        print("MAIN further")
+                        try:
+                            motors.goForward()
+                        except:
+                            print("")
+
             if (distance < minDistance):
                 print("Object is little close : " + str(distance))
                 motors.stopThere()

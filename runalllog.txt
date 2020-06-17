@@ -1,5 +1,40 @@
 labels[obj.label_id]: str(endX-startX)  ;str(endY-startY) @ str(objX) # str(objY)
 person		    : 348		;356		  @ 283.0     # 178.0 
+
+
+ject is little close : 0.0
+Rohan and Havish asked me to stop
+****************payload********* b'current status: stop'
+****************payload********* b'person:298;324@324.0#162.0$175'
+*********** width ************298
+************** x_medium177
+****************payload********* b'person:301;333@324.5#166.5$174'
+*********** width ************301
+************** x_medium178
+****************payload********* b'person:298;324@324.0#162.0$175'
+*********** width ************298
+************** x_medium177
+
+
+Object is little close : 0.0
+Rohan and Havish asked me to stop
+****************payload********* b'current status: stop'
+****************payload********* b'person:308;333@214.0#166.5$60'
+*********** width ************308
+************** startX  28
+************** x_medium 182
+****************payload********* b'person:308;333@214.0#166.5$60'
+*********** width ************308
+************** startX  28
+************** x_medium 182
+****************payload********* b'person:299;326@213.5#166.0$64'
+*********** width ************299
+************** startX  28
+************** x_medium 177
+
+
+N
+Object is little close : 0.0
  person:339;353@276.5#176.5
  person:341;352@274.5#176.0
  person:339;346@276.5#173.0

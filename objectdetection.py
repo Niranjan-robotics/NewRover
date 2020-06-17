@@ -116,9 +116,12 @@ def annotate_and_display ( image, inferenceResults, elapsedMs, labels, font ):
         objY = objY / 2
         objY = objY + startY
         outputString = labels[obj.label_id] + ":" + str(endX-startX)
-        outputString = outputString + ";" + str(endY-startY)  # str can only take 3 objects or something like that
+        outputString = outputString + "@" + str(endY-startY)  # str can only take 3 objects or something like that
         outputString = outputString + "@" + str(objX)
-        outputString = outputString + "#" + str(objY)
+        outputString = outputString + "@" + str(objY)
+        outputString = outputString + "@" + str(startX)
+        
+        
         publish.single(MQTT_PATH, outputString, hostname=MQTT_SERVER)
 
     # If a display is available, show the image on which inference was performed
@@ -127,7 +130,8 @@ def annotate_and_display ( image, inferenceResults, elapsedMs, labels, font ):
         cv2.imshow( 'Image', displayImage )
 
 def main():
-
+    
+    
     # Load the labels file
     labels =[ line.rstrip('\n') for line in
               open( ARGS.labels ) if line != 'classes\n']
@@ -301,7 +305,7 @@ if __name__ == "__main__":
     t2.start()
     
     # comment following line to stop detecting facemessage
-    #message='face'
+    message='face'
     
     parser = argparse.ArgumentParser(
                          description="Detect objects on a LIVE camera feed using \
