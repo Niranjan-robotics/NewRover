@@ -32,7 +32,7 @@ tf_face_size = 0;
 avgMovementX = 400
 movementX = [1,2,3]
 motor_direction = "unsure"
-action = False
+action = True
 
 start_face_distance = 0
 start_face_needed = False
@@ -42,16 +42,18 @@ minDistance = 25
 startTime = time.time()
 startTimeCup = time.time()
 distanceString = ''
-voiceString = ''
+voiceString = 'speech:stop'
 distance = 0.0
 needToSleep = False
 firstRun = True
 
-
+position = 410
 #==================Motor connect======================================
 
 motors.motorSetup()
 servo.setFreq(50)
+# This command will trigger starting point message
+motors.stopThere()
 
 def getStringBetween(strA,strB,searchString):
     import re
@@ -103,9 +105,10 @@ def on_message(client, userdata, msg):
     global needToSleep
     global voiceString
     global subprocess_id
+    global position
     
     tf_in = (str(msg.payload))
-    print("****************payload********* " + tf_in )
+    # print("****************payload********* " + tf_in )
     if (tf_in.find("coco distance:") != -1):
         length = len(tf_in)
         pos1 = tf_in.find(':')  # split up the input string
@@ -125,19 +128,21 @@ def on_message(client, userdata, msg):
         # camera_view = face_move=face_move.replace("'","")
         startTime = time.time()
         length = len(tf_in)
+        
         pos = tf_in.split(':')[1].split('@')  # split up the input string
+        # print(pos)
         width=int(pos[0]) # this will give you the width of the person
         height=int(pos[1]) # this will give you the height of the person
-        pos3=int(pos[2])
-        pos4=int(pos[3])
-        startX=int(pos[4])
-        print(pos)
+        # pos3=int(pos[2])
+        # pos4=int(pos[3])
+        startX=int(pos[4].replace("'",""))
+        
         # pos1 = getStringBetween(":",";",str(tf_in))
         # pos2 = getStringBetween(";","@",str(tf_in))
         # pos3 = getStringBetween("@","#",str(tf_in))
         # pos4 = getStringBetween("#","$",str(tf_in))
         
-        print("*********** width ************" + str(width))
+        
         # tf_face_size = width * height
         # face_array[2] = face_array[1]
         # face_array[1] = face_array[0]
@@ -148,9 +153,10 @@ def on_message(client, userdata, msg):
         center = 320 # this is fixed based on current resolution if any change adjust the value
         
         x_medium = int((startX + startX + width) / 2)
-        print("************** startX  " + str(startX))
-        print("************** x_medium " + str(x_medium))
-        print("************** position " + str(position))
+        print("*********** width ************" + str(width))
+        print("startX"+ str(startX))
+        print("medium"+ str(x_medium))
+        print("Postion"+ str(position))
         
         coordinates = str.format("******* x_medium : {0} position : {1} startX : {2}",str(x_medium),str(position),str(startX))
         print(coordinates)
@@ -248,34 +254,34 @@ if __name__ == "__main__":
                 elif (motor_direction == "unsure" and firstRun == False):
                     print("rotating")
                     servo.scanLeftRight(500)
-                else:
-                    print("N")
-                    if (face_move == 'further'):
-                        print("MAIN further")
-                        try:
-                            motors.goForward()
-                        except:
-                            print("")
+                # else:
+                    # print("N")
+                    # if (face_move == 'further'):
+                        # print("MAIN further")
+                        # try:
+                            # motors.goForward()
+                        # except:
+                            # print("")
 
-            if (distance < minDistance):
-                print("Object is little close : " + str(distance))
-                motors.stopThere()
-            if (voiceString.find('stop') != -1 & face_move.find('stop') == -1):
-                motors.stopThere()
-            if (voiceString.find('forward') != -1 &  face_move.find('forward') == -1):
-                motors.goForward()
-            if (voiceString.find('backward') != -1 & face_move.find('backward') == -1):
-                motors.goBackward()
-            if (voiceString.find('right') != -1):
-                motors.turnRight()
-            if (voiceString.find('left') != -1):
-                motors.turnLeft()
-            if (voiceString.find('up') != -1 & face_move.find('up') == -1):
-                servo.lookUp()
-            if (voiceString.find('down') != -1 & face_move.find('down') == -1):
-                servo.lookDown()
-            if (voiceString.find('straight') != -1 & face_move.find('straight') == -1):
-                servo.lookStraight()
+            # if (distance < minDistance):
+                # print("Object is little close : " + str(distance))
+                # motors.stopThere()
+            # if (voiceString.find('stop') != -1 & face_move.find('stop') == -1):
+                # motors.stopThere()
+            # if (voiceString.find('forward') != -1 &  face_move.find('forward') == -1):
+                # motors.goForward()
+            # if (voiceString.find('backward') != -1 & face_move.find('backward') == -1):
+                # motors.goBackward()
+            # if (voiceString.find('right') != -1):
+                # motors.turnRight()
+            # if (voiceString.find('left') != -1):
+                # motors.turnLeft()
+            # if (voiceString.find('up') != -1 & face_move.find('up') == -1):
+                # servo.lookUp()
+            # if (voiceString.find('down') != -1 & face_move.find('down') == -1):
+                # servo.lookDown()
+            # if (voiceString.find('straight') != -1 & face_move.find('straight') == -1):
+                # servo.lookStraight()
             #if (voiceString.find('face') != -1) or (voiceString.find('coco') != -1):
             #    print("launching object detection")
             #    obj.main()

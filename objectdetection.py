@@ -172,8 +172,8 @@ def main():
     ## Use imutils to count Frames Per Second (FPS)
     fps = FPS().start()
 
-    ## Capture live stream & send frames for preprocessing, inference and annotation
-    # while message.find('face') != -1:
+    #to-do change this to target different object specific detection
+    # while message.find('face') != -1: 
     while message != '':
         try:
 
@@ -261,7 +261,8 @@ def nircustomDetection():
     fps = FPS().start()
 
     ## Capture live stream & send frames for preprocessing, inference and annotation
-    while message.find('face') != -1:
+    # while message.find('face') != -1:
+    while True:
         try:
 
             # Read frame from video and prepare for inference
@@ -304,7 +305,7 @@ if __name__ == "__main__":
     t2.setDaemon(True)
     t2.start()
     
-    # comment following line to stop detecting facemessage
+    # Todo- comment following line to stop detecting facemessage
     message='face'
     
     parser = argparse.ArgumentParser(
