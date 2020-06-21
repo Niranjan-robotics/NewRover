@@ -47,7 +47,8 @@ distance = 0.0
 needToSleep = False
 firstRun = True
 
-position = 410
+positionX = 410
+positionY = 400
 #==================Motor connect======================================
 
 motors.motorSetup()
@@ -105,7 +106,8 @@ def on_message(client, userdata, msg):
     global needToSleep
     global voiceString
     global subprocess_id
-    global position
+    global positionX
+    global positionY
     
     tf_in = (str(msg.payload))
     # print("****************payload********* " + tf_in )
@@ -131,48 +133,48 @@ def on_message(client, userdata, msg):
         
         pos = tf_in.split(':')[1].split('@')  # split up the input string
         # print(pos)
+        # center ---------(w,h,x,y)(260,300,170,79)
+        # Top right ------(w,h,x,y)(170,280,0,0)
+        # Top left-------(w,h,x,y)(170,280,340,0)
+        # Top center------(w,h,x,y)(320,320,157,0)
+        # bottom right------(w,h,x,y)(333,360,0,120)
+        # bottom left------(w,h,x,y)(333,360,340,100)
+        # bottmon center------(w,h,x,y)(370,350,175,100)
+
         width=int(pos[0]) # this will give you the width of the person
         height=int(pos[1]) # this will give you the height of the person
         # pos3=int(pos[2])
         # pos4=int(pos[3])
         startX=int(pos[4].replace("'",""))
+        startY=int(pos[5].replace("'",""))
         
-        # pos1 = getStringBetween(":",";",str(tf_in))
-        # pos2 = getStringBetween(";","@",str(tf_in))
-        # pos3 = getStringBetween("@","#",str(tf_in))
-        # pos4 = getStringBetween("#","$",str(tf_in))
-        
-        
-        # tf_face_size = width * height
-        # face_array[2] = face_array[1]
-        # face_array[1] = face_array[0]
-        # face_array[0] = tf_face_size
-        # avgFace = face_array[2] + face_array[1] + face_array[0]
-        # avgFace = avgFace / 3.0
-        #------------nir  perform tracking here using co-ordinates --------------
-        center = 320 # this is fixed based on current resolution if any change adjust the value
+        centerX = 320 # this is fixed based on current resolution if any change adjust the value
+        centerY = 300
         
         x_medium = int((startX + startX + width) / 2)
-        print("*********** width ************" + str(width))
-        print("startX"+ str(startX))
-        print("medium"+ str(x_medium))
-        print("Postion"+ str(position))
+        y_medium = int((startY + startY + height) / 2)
         
-        coordinates = str.format("******* x_medium : {0} position : {1} startX : {2}",str(x_medium),str(position),str(startX))
-        print(coordinates)
+        coordinatesX = str.format("******* x_medium : {0} positionX : {1} startX : {2}",str(x_medium),str(positionX),str(startX))
+        coordinatesY = str.format("******* y_medium : {0} positionY : {1} startY : {2}",str(y_medium),str(positionY),str(startY))
+        print(coordinatesX)
+        print(coordinatesY)
         
-        # Move servo motor
-        if x_medium < center -30:
-            position += (2)
-            c= str.format("center:{0}   x_medium: {1}  Position: {2}",str(center),str(x_medium) ,str(position))
-            print(c)
-        elif x_medium > center + 30:
-            position -= (2)
-            c= str.format("center:{0}   x_medium: {1}  Position: {2}",str(center),str(x_medium) ,str(position))
-            print(c)
-        # servo.pwm.set_pwm(1, 0, position)
-        servo.scanLeftRight(position)
+        # Move servo motor left/right
+        if x_medium < centerX -30:
+            positionX += (2)
+        elif x_medium > centerX + 30:
+            positionX -= (2)
+        
+        # Move servo motor up/down
+        if (positionY < 450) & (y_medium < centerY -30):
+            positionY -= (1)
+        elif (positionY > 200) & (y_medium > centerY + 30):
+            positionY += (1)
+            
+        servo.scanUpDown(positionY)
+        servo.scanLeftRight(positionX)
         # ---------- end of screen postion --------
+
         print(camera_view)
         print(avgX)
         print(avgFace)

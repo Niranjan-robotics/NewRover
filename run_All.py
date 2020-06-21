@@ -22,9 +22,9 @@ from subprocess import Popen, PIPE
 
 #This will physicall open terminals seperately
 edit1 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/roverMainScript.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
-# edit2 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/distance.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+edit2 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/distance.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
 edit3 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/voiceClient.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
 edit4 = Popen(["/home/pi/projects/NewRover/snowboy/runHotword.sh"], shell = True)
-#edit5 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/servo.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+# edit5 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/servo.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
 edit6 = Popen(["lxterminal", "-e", "python3", "-i", "/home/pi/projects/NewRover/objectdetection.py"], stdout=PIPE, stderr=PIPE, stdin=PIPE)
 

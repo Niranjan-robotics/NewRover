@@ -8,6 +8,13 @@ import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 MQTT_SERVER = "localhost"
 MQTT_PATH = "test_servo"
+#----------------Note------------------------- Debug servo issues ---------------
+#   $ i2cdetect -y 1
+# keep trying with 0/1/2 for few times until 1 return correct values
+# this should retun 40 /70 i2c
+#  cat /boot/cmdline.txt
+#    $lsmod | grep i2c
+#==========================================
 
 # Uncomment to enable debug output.
 #import logging
@@ -22,9 +29,9 @@ hori_straight_= 420
 hori_right_max= 100
 
 #turn left right values
-vert_up_max= 200 ##pwm.set_pwm(0, 100, 200)
-vert_straight_= 420  #pwm.set_pwm(0, 0, 420)
-vert_down_max= 435  #pwm.set_pwm(0, 50, 450)
+vert_up_max= 200 ##pwm.set_pwm(1, 100, 200)
+vert_straight_= 350  #pwm.set_pwm(1, 0, 420)
+vert_down_max= 375  #pwm.set_pwm(1, 50, 450)
 
 
 # Helper function to make setting a servo pulse width simpler.
@@ -48,7 +55,7 @@ def deInitServo():
 def lookUp90():
     print("Looking up")
     #look 90 degree up
-    pwm.set_pwm(0, 100, 200)
+    pwm.set_pwm(1, 100, 200)
     time.sleep(1)
     #publish.single(MQTT_PATH, 'current status: up', hostname=MQTT_SERVER)
     
@@ -56,44 +63,44 @@ def lookUp70():
     print("Looking up")
     #look 90 degree up
     #look straigh and up 70 degree
-    pwm.set_pwm(0, 100, 300)
+    pwm.set_pwm(1, 100, 300)
     time.sleep(1)
     #publish.single(MQTT_PATH, 'current status: up', hostname=MQTT_SERVER)
     
 def lookStraight():
     print("look straight")
-    #pwm.set_pwm(0, 100, 300)
+    #pwm.set_pwm(1, 100, 300)
     #time.sleep(1)
-    pwm.set_pwm(1, 0, 420)
+    pwm.set_pwm(3, 0, 420)
     time.sleep(1)
-    pwm.set_pwm(0, 0, 350)
+    pwm.set_pwm(1, 0, 350)
     time.sleep(1)
     #publish.single(MQTT_PATH, 'current status: straight', hostname=MQTT_SERVER)
     
 def lookDownMax():
     print("look down")
-    pwm.set_pwm(0, 50, 450)
+    pwm.set_pwm(1, 50, 450)
     time.sleep(1)
     #publish.single(MQTT_PATH, 'current status: down', hostname=MQTT_SERVER)
     time.sleep(1)
 
 def lookLeft():
     print("look left")
-    pwm.set_pwm(0, 0, 300)
+    pwm.set_pwm(1, 0, 300)
     time.sleep(1)
-    pwm.set_pwm(1, 0, 420)
+    pwm.set_pwm(3, 0, 420)
     time.sleep(1)
-    pwm.set_pwm(1, 0, 600)
+    pwm.set_pwm(3, 0, 600)
     time.sleep(1)
     #publish.single(MQTT_PATH, 'current status: straight', hostname=MQTT_SERVER)
 
 def lookRight():
     print("look right")
-    pwm.set_pwm(0, 100, 300)
+    pwm.set_pwm(1, 100, 300)
     time.sleep(1)
-    pwm.set_pwm(1, 0, 250)
+    pwm.set_pwm(3, 0, 250)
     time.sleep(1)
-    pwm.set_pwm(0, 100, 300)
+    pwm.set_pwm(1, 100, 300)
     time.sleep(1)
     #publish.single(MQTT_PATH, 'current status: straight', hostname=MQTT_SERVER)
 
@@ -110,7 +117,7 @@ def lookBackRight():
 def scanLeft():
     lookStraight()
     for i in range(421,520):
-        pwm.set_pwm(1, 0, i)
+        pwm.set_pwm(3, 0, i)
         print(i)
         time.sleep(0.1)
 
@@ -118,7 +125,7 @@ def scanLeft():
 def scanRight():
     lookStraight()
     for i in range(200):
-        pwm.set_pwm(1, 0, 420 - i)
+        pwm.set_pwm(3, 0, 420 - i)
         print(i)
         time.sleep(0.1)
         
@@ -126,7 +133,7 @@ def scanRight():
 def scanDown():
     lookStraight()
     for i in range(vert_up_max,vert_down_max):
-        pwm.set_pwm(0, 50, i)
+        pwm.set_pwm(1, 0, i)
         print(i)
         time.sleep(0.1)        
         
@@ -134,9 +141,11 @@ def scanDown():
 #Vertical movements
 def scanUpDown(targetPosition):
     print(targetPosition)
-    
+    print(vert_up_max)
+    # vert_straight_= 420
+    # vert_down_max= 435
     if (targetPosition > vert_up_max) & (targetPosition < vert_down_max):
-        pwm.set_pwm(0, 50, targetPosition)
+        pwm.set_pwm(1, 0, targetPosition)
         
 #Horizontal movements
 def scanLeftRight(targetPosition):
@@ -144,12 +153,14 @@ def scanLeftRight(targetPosition):
     print(hori_right_max)
     print(hori_left_max)
     if (targetPosition >= hori_right_max) & (targetPosition <= hori_left_max):
-        pwm.set_pwm(1, 0, targetPosition)        
+        pwm.set_pwm(3, 0, targetPosition)        
 
 #========================================================            
 setFreq()    
 lookUp90()
+# scanDown()
 lookStraight()
+
 # lookBackRight()
 # lookDownMax()
 # lookLeft()

@@ -120,6 +120,7 @@ def annotate_and_display ( image, inferenceResults, elapsedMs, labels, font ):
         outputString = outputString + "@" + str(objX)
         outputString = outputString + "@" + str(objY)
         outputString = outputString + "@" + str(startX)
+        outputString = outputString + "@" + str(startY)
         
         
         publish.single(MQTT_PATH, outputString, hostname=MQTT_SERVER)
