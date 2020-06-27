@@ -8,6 +8,9 @@ import motors
 import servo
 import objectdetection as obj
 import re
+import logging
+import logging.config
+import yaml
 
 MQTT_SERVER = "localhost"
 MQTT_PATH = "test_channel"
@@ -49,6 +52,15 @@ firstRun = True
 
 positionX = 410
 positionY = 400
+
+left= False
+right= False
+top= False
+down = False
+eleft= False
+eright= False
+etop= False
+edown = False
 #==================Motor connect======================================
 
 motors.motorSetup()
@@ -56,6 +68,14 @@ servo.setFreq(50)
 # This command will trigger starting point message
 motors.stopThere()
 
+logging.basicConfig(filename='/home/pi/projects/NewRover/consoleLog.log', filemode='w',level=logging.INFO,format='%(asctime)s %(levelname)s %(name)s %(message)s')
+logger = logging.getLogger(__name__)
+
+def logInfo(msg):
+    logger.info(msg)
+
+logInfo("this is test log")
+  
 def getStringBetween(strA,strB,searchString):
     import re
     formS=str.format("{0}(.*){1}",strA,strB)
@@ -108,6 +128,26 @@ def on_message(client, userdata, msg):
     global subprocess_id
     global positionX
     global positionY
+    global logger
+    global left
+    global right
+    global top
+    global down
+    global eleft
+    global eright
+    global etop
+    global edown
+    
+    #turn left right values
+    hori_left_max= 475   #left
+    hori_straight= 420  #Center
+    hori_right_max= 300   #right
+
+    #turn left right values
+    vert_up_max= 200 ##pwm.set_pwm(0, 100, 200)
+    vert_straight_= 350  #pwm.set_pwm(0, 0, 420)
+    vert_down_max= 375  #pwm.set_pwm(0, 50, 450)
+
     
     tf_in = (str(msg.payload))
     # print("****************payload********* " + tf_in )
@@ -130,8 +170,9 @@ def on_message(client, userdata, msg):
         # camera_view = face_move=face_move.replace("'","")
         startTime = time.time()
         length = len(tf_in)
-        
+        logInfo("***********************")
         pos = tf_in.split(':')[1].split('@')  # split up the input string
+        logInfo(pos)
         # print(pos)
         # center ---------(w,h,x,y)(260,300,170,79)
         # Top right ------(w,h,x,y)(170,280,0,0)
@@ -143,36 +184,40 @@ def on_message(client, userdata, msg):
 
         width=int(pos[0]) # this will give you the width of the person
         height=int(pos[1]) # this will give you the height of the person
-        # pos3=int(pos[2])
-        # pos4=int(pos[3])
+        
+        pos3=float(pos[2].replace("'",""))
+        pos4=float(pos[3].replace("'",""))
+        print(pos3)
         startX=int(pos[4].replace("'",""))
         startY=int(pos[5].replace("'",""))
         
-        centerX = 320 # this is fixed based on current resolution if any change adjust the value
-        centerY = 300
+        centerX = 640 # this is fixed based on current resolution (1280/720) if any change adjust the value
+        centerY = 360
         
-        x_medium = int((startX + startX + width) / 2)
-        y_medium = int((startY + startY + height) / 2)
+        x_medium = int(startX) + int(width) / 2
+        y_medium = int(startY) + int(height) / 2
         
-        coordinatesX = str.format("******* x_medium : {0} positionX : {1} startX : {2}",str(x_medium),str(positionX),str(startX))
-        coordinatesY = str.format("******* y_medium : {0} positionY : {1} startY : {2}",str(y_medium),str(positionY),str(startY))
+        coordinatesX = str.format("******* x_medium : {0} centerx : {2} positionX : {1} ",str(x_medium),str(positionX),str(centerX))
+        coordinatesY = str.format("******* y_medium : {0} cemtrY : {2} positionY : {1}",str(y_medium),str(positionY),str(centerY))
         print(coordinatesX)
         print(coordinatesY)
-        
+
+
         # Move servo motor left/right
-        if x_medium < centerX -30:
-            positionX += (2)
-        elif x_medium > centerX + 30:
-            positionX -= (2)
+        if (positionX < hori_left_max) and (positionX > hori_right_max) and x_medium < centerX -30:
+            positionX += (6)
+        elif (positionX < hori_left_max) and (positionX > hori_right_max) and x_medium > centerX + 30:
+            positionX -= (6)
         
         # Move servo motor up/down
         if (positionY < 450) & (y_medium < centerY -30):
-            positionY -= (1)
+            positionY -= (2)
         elif (positionY > 200) & (y_medium > centerY + 30):
-            positionY += (1)
-            
+            positionY += (2)
+        
+        servo.scanLeftRight(positionX)    
         servo.scanUpDown(positionY)
-        servo.scanLeftRight(positionX)
+        
         # ---------- end of screen postion --------
 
         print(camera_view)
@@ -293,4 +338,3 @@ if __name__ == "__main__":
         motors.stopThere()
         GPIO.cleanup()
         client.disconnect()
-

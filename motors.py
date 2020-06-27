@@ -6,6 +6,7 @@ import paho.mqtt.publish as publish
 MQTT_SERVER = "localhost"
 MQTT_PATH = "test_motor"
 
+
 '''
 m1in1 = 4
 m1in2 = 14
@@ -27,6 +28,7 @@ m2en = 21
 temp1 = 1
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
 timetoHold = False
 

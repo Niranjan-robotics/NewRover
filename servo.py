@@ -4,6 +4,7 @@ import time
 # Import the PCA9685 module.
 import Adafruit_PCA9685
 import time
+import logging
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 MQTT_SERVER = "localhost"
@@ -24,9 +25,9 @@ MQTT_PATH = "test_servo"
 pwm = Adafruit_PCA9685.PCA9685()
 
 #turn left right values
-hori_left_max= 520
+hori_left_max= 475
 hori_straight_= 420
-hori_right_max= 100
+hori_right_max= 150
 
 #turn left right values
 vert_up_max= 200 ##pwm.set_pwm(1, 100, 200)
@@ -116,7 +117,7 @@ def lookBackRight():
 #input range to restrict to given coordinates
 def scanLeft():
     lookStraight()
-    for i in range(421,520):
+    for i in range(hori_straight_,hori_left_max):
         pwm.set_pwm(3, 0, i)
         print(i)
         time.sleep(0.1)
@@ -124,9 +125,9 @@ def scanLeft():
 #input range to restrict to given coordinates
 def scanRight():
     lookStraight()
-    for i in range(200):
-        pwm.set_pwm(3, 0, 420 - i)
-        print(i)
+    for i in range(hori_right_max):
+        pwm.set_pwm(3, 0, hori_straight_ - i)
+        print(hori_straight_ - i)
         time.sleep(0.1)
         
 #input range to restrict to given coordinates
@@ -137,30 +138,32 @@ def scanDown():
         print(i)
         time.sleep(0.1)        
         
+def resetPosition():        
+    lookStraight()
+    
 #=========================== camera control back commands ===================
 #Vertical movements
 def scanUpDown(targetPosition):
-    print(targetPosition)
-    print(vert_up_max)
-    # vert_straight_= 420
-    # vert_down_max= 435
     if (targetPosition > vert_up_max) & (targetPosition < vert_down_max):
         pwm.set_pwm(1, 0, targetPosition)
         
 #Horizontal movements
 def scanLeftRight(targetPosition):
-    print(targetPosition)
-    print(hori_right_max)
-    print(hori_left_max)
     if (targetPosition >= hori_right_max) & (targetPosition <= hori_left_max):
         pwm.set_pwm(3, 0, targetPosition)        
 
 #========================================================            
 setFreq()    
-lookUp90()
+# lookUp90()
+# scanRight()
+# scanLeft()
 # scanDown()
 lookStraight()
-
+logging.debug('This is a debug message')
+logging.info('This is an info message')
+logging.warning('This is a warning message')
+logging.error('This is an error message')
+logging.critical('This is a critical message')
 # lookBackRight()
 # lookDownMax()
 # lookLeft()

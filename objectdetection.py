@@ -165,6 +165,8 @@ def main():
     vs = cv2.VideoCapture(0)
     # # set the format into MJPG in the FourCC format 
     vs.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc('M','J','P','G'))
+    vs.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)        ##center x= 640
+    vs.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)         ##center y= 360
     if not vs.isOpened:
         print('--(!)Error opening video capture')
         exit(0)
