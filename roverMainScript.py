@@ -173,23 +173,29 @@ def on_message(client, userdata, msg):
         logInfo("***********************")
         pos = tf_in.split(':')[1].split('@')  # split up the input string
         logInfo(pos)
+        pos1=int(pos[0].replace("'",""))
+        pos2=int(pos[1].replace("'",""))
         # print(pos)
-        # center ---------(w,h,x,y)(260,300,170,79)
-        # Top right ------(w,h,x,y)(170,280,0,0)
-        # Top left-------(w,h,x,y)(170,280,340,0)
-        # Top center------(w,h,x,y)(320,320,157,0)
-        # bottom right------(w,h,x,y)(333,360,0,120)
-        # bottom left------(w,h,x,y)(333,360,340,100)
-        # bottmon center------(w,h,x,y)(370,350,175,100)
-
-        width=int(pos[0]) # this will give you the width of the person
-        height=int(pos[1]) # this will give you the height of the person
-        
+        # width=int(pos[0]) # this will give you the width of the person
+        # height=int(pos[1]) # this will give you the height of the person
         pos3=float(pos[2].replace("'",""))
         pos4=float(pos[3].replace("'",""))
-        print(pos3)
         startX=int(pos[4].replace("'",""))
         startY=int(pos[5].replace("'",""))
+            
+        width = pos1
+        height = pos2
+        tf_face_size = width * height
+        face_array[2] = face_array[1]
+        face_array[1] = face_array[0]
+        face_array[0] = tf_face_size
+        avgFace = face_array[2] + face_array[1] + face_array[0]
+        avgFace = avgFace / 3.0
+        # print(tf_in)
+        # 9feet distance from face = 1706  (start greater than 100)
+        # < 1 feet distance = 768080 to 838080  (stop greater than 700000)
+        face_axis = str.format("******* width : {0} height : {1} tf_face_size : {2} avgFace :{3}",str(width),str(height),str(tf_face_size),str(avgFace))
+        # print(face_axis)
         
         centerX = 640 # this is fixed based on current resolution (1280/720) if any change adjust the value
         centerY = 360
@@ -199,34 +205,34 @@ def on_message(client, userdata, msg):
         
         coordinatesX = str.format("******* x_medium : {0} centerx : {2} positionX : {1} ",str(x_medium),str(positionX),str(centerX))
         coordinatesY = str.format("******* y_medium : {0} cemtrY : {2} positionY : {1}",str(y_medium),str(positionY),str(centerY))
-        print(coordinatesX)
-        print(coordinatesY)
+        # print(coordinatesX)
+        # print(coordinatesY)
 
 
         # Move servo motor left/right
         if (positionX < hori_left_max) and (positionX > hori_right_max) and x_medium < centerX -30:
-            positionX += (6)
+            positionX += (2)
         elif (positionX < hori_left_max) and (positionX > hori_right_max) and x_medium > centerX + 30:
-            positionX -= (6)
-        
-        # Move servo motor up/down
-        if (positionY < 450) & (y_medium < centerY -30):
+            positionX -= (2)
+
+        # Move servo motor
+        if (positionY < vert_down_max) and (positionY > vert_up_max) and (y_medium < centerY -30):
             positionY -= (2)
-        elif (positionY > 200) & (y_medium > centerY + 30):
+            servo.scanUpDown(positionY)
+        elif (positionY < vert_down_max) and (positionY > vert_up_max) and (y_medium > centerY + 30):
             positionY += (2)
+            servo.scanUpDown(positionY)
+        elif (positionY >= vert_down_max) or (positionY <= vert_up_max):
+            positionY = vert_straight_
+            time.sleep(0.2)
         
-        servo.scanLeftRight(positionX)    
-        servo.scanUpDown(positionY)
+        # servo.scanLeftRight(positionX)    
+        # servo.scanUpDown(positionY)
         
         # ---------- end of screen postion --------
 
-        print(camera_view)
-        print(avgX)
-        print(avgFace)
-        print(tf_xPos)
-        print(tf_yPos)
-        tf_xPos = float(tf_in[(pos3 + 1):pos4])
-        tf_yPos = float(tf_in[(pos4+1):length])
+        tf_xPos = float(pos2)
+        tf_yPos = float(pos3)
         yCord[2] = yCord[1]
         yCord[1] = yCord[0]
         yCord[0] = tf_yPos
@@ -258,6 +264,7 @@ def on_message(client, userdata, msg):
                 face_move = "closer"
             else:
                 face_move = ""
+        print(motor_direction)
         t = 0
     
 client = mqtt.Client()
@@ -285,22 +292,27 @@ if __name__ == "__main__":
                 # if (time.time() > startTime + 10):
                     # motor_direction = "unsure"
                 if (motor_direction == "left"):
-                    print ("R")
+                    # print ("L")
+                    
                     try:
-                        motors.turnRight()
+                        # motors.turnRight()
+                        # servo.lookLeft()
+                        a=c #delete this line once motor code is there
                     except:
-                        print("")
+                        time.sleep(0.1)
                 elif (motor_direction == "right"):
-                    print ("L")
+                    # print ("R")
                     try:
-                        motors.turnLeft()
+                        # motors.turnLeft()
+                        # servo.lookRight()
+                        a=c #delete this line once motor code is there
                     except:
-                        print("")
-                    #sleep(0.3)
+                        time.sleep(0.1)
                     #motor_direction = ""
                 elif (motor_direction == "unsure" and firstRun == False):
                     print("rotating")
-                    servo.scanLeftRight(500)
+                    # motors.stopThere()
+                    # servo.scanLeftRight(500)
                 # else:
                     # print("N")
                     # if (face_move == 'further'):
