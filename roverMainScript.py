@@ -34,6 +34,7 @@ tf_yPos = 0
 tf_face_size = 0;
 avgMovementX = 400
 movementX = [1,2,3]
+currentMotorAction = "stop"
 motor_direction = "unsure"
 action = True
 
@@ -137,6 +138,7 @@ def on_message(client, userdata, msg):
     global eright
     global etop
     global edown
+    global currentMotorAction
     
     #turn left right values
     hori_left_max= 475   #left
@@ -212,8 +214,12 @@ def on_message(client, userdata, msg):
         # Move servo motor left/right
         if (positionX < hori_left_max) and (positionX > hori_right_max) and x_medium < centerX -30:
             positionX += (2)
+            servo.scanLeftRight(positionX)  
+            motor_direction = "left"
         elif (positionX < hori_left_max) and (positionX > hori_right_max) and x_medium > centerX + 30:
             positionX -= (2)
+            motor_direction = "right"
+            servo.scanLeftRight(positionX)
 
         # Move servo motor
         if (positionY < vert_down_max) and (positionY > vert_up_max) and (y_medium < centerY -30):
@@ -251,12 +257,12 @@ def on_message(client, userdata, msg):
        
         if avgX == 0:
             motor_direction == "unsure"
-        elif avgX>470:
-            motor_direction = "left"
-        elif avgX<170:
-            motor_direction = "right"
-        elif avgX <470 and avgX >170:
-            motor_direction = "neither"
+        # elif avgX>500:
+            # motor_direction = "left"
+        # elif avgX<100:
+            # motor_direction = "right"
+        # # elif avgX <470 and avgX >170:
+            # motor_direction = "neither"
         if (currentDetection == "face"):
             if (avgFace > (start_face_distance + 8000)): #100 is a filter
                 face_move = "further"
@@ -289,38 +295,61 @@ if __name__ == "__main__":
             firstRun == False
             currentDetection="face"
             if (currentDetection == "face"):
-                # if (time.time() > startTime + 10):
-                    # motor_direction = "unsure"
+                if (time.time() > startTime + 10):
+                    motor_direction = "unsure"
                 if (motor_direction == "left"):
-                    # print ("L")
-                    
+                    print ("R")
                     try:
-                        # motors.turnRight()
-                        # servo.lookLeft()
-                        a=c #delete this line once motor code is there
+                        motors.turnLeft()
+                        time.sleep(3)
+                        motors.stopThere()
+                        currentMotorAction = "stop"                        
                     except:
-                        time.sleep(0.1)
+                        print("")
                 elif (motor_direction == "right"):
-                    # print ("R")
+                    print ("L")
                     try:
-                        # motors.turnLeft()
-                        # servo.lookRight()
-                        a=c #delete this line once motor code is there
+                        motors.turnRight()
+                        time.sleep(3)
+                        motors.stopThere()
+                        currentMotorAction = "stop"
                     except:
-                        time.sleep(0.1)
+                        print("")
+                    #sleep(0.3)
                     #motor_direction = ""
                 elif (motor_direction == "unsure" and firstRun == False):
                     print("rotating")
-                    # motors.stopThere()
-                    # servo.scanLeftRight(500)
-                # else:
-                    # print("N")
-                    # if (face_move == 'further'):
-                        # print("MAIN further")
-                        # try:
-                            # motors.goForward()
-                        # except:
-                            # print("")
+                    motors.turnRight()
+                    time.sleep(6)
+                    motors.stopThere()
+                    currentMotorAction = "stop"
+                else:
+                    print("N")
+                    if (face_move == 'further'):
+                        print("MAIN further")
+                        try:
+                            if(currentMotorAction != "forward"):
+                                motors.goForward()
+                                time.sleep(0.2)
+                                currentMotorAction = "forward"                            
+                        except:
+                            print("")
+                    elif(face_move =='closer'):
+                        print("MAIN closer")
+                        try:
+                            if(currentMotorAction != "stop"):
+                                motors.stopThere()
+                                currentMotorAction="stop"
+                        except:
+                            print("")
+                    else:
+                        print('N')
+                        try:
+                            if(currentMotorAction != "stop"):
+                                motors.stopThere()
+                                currentMotorAction="stop"
+                        except:
+                            print("")
 
             # if (distance < minDistance):
                 # print("Object is little close : " + str(distance))
