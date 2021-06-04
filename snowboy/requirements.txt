@@ -36,7 +36,7 @@ cryptography==2.6.1
 cycler==0.10.0
 decorator==4.3.0
 defusedxml==0.6.0
-Django==2.2.5
+Django==2.2.21
 dlib==19.17.0
 docutils==0.14
 drumhat==0.1.0
